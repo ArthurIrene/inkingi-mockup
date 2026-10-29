@@ -24,6 +24,9 @@
   .t { font-weight: 600; }
   .s { color: var(--muted); font-size: 13px; }
   .arrow { margin-left: auto; color: var(--muted); }
+  .ver { display: inline-block; padding: 6px 12px; border-radius: 14px; background: #14171C; border: 1px solid var(--line); color: var(--muted); font-size: 13px; line-height: 1.45; margin: -12px 0 4px; }
+  .ver strong { color: var(--text); font-weight: 600; }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #43D19E; margin-right: 8px; vertical-align: 1px; }
   footer { color: var(--muted); font-size: 12px; margin-top: 24px; }
 </style>
 </head>
@@ -35,6 +38,7 @@
       <h1>Inkingi mockup</h1>
     </div>
   </div>
+  <div class="ver"><span class="dot" aria-hidden="true"></span>Latest version: <strong data-version="full" hidden></strong></div>
   <p>Live, clickable design of the Inkingi web and app. Tap around: everything is a mockup, nothing is saved.</p>
 
   <a class="card" href="phone.html">
@@ -48,13 +52,8 @@
     <span class="arrow" aria-hidden="true">→</span>
   </a>
 
-  <footer id="ver">Alta Vision Ltd · Kigali</footer>
+  <footer>Alta Vision Ltd · Kigali</footer>
 </main>
-<script>
-  fetch('design/canvas.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (c) {
-    var n = c.notes && c.notes.t1 && c.notes.t1.text;
-    if (n) document.getElementById('ver').textContent = n + ' · Alta Vision Ltd';
-  }).catch(function () {});
-</script>
+<script src="runtime/version.js"></script>
 </body>
 </html>

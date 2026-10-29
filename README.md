@@ -6,7 +6,7 @@ It is a mockup only. Nothing is saved, no real data, no real accounts.
 - **Phone:** first visit → sign-up → personal home, materials, people, inbox
 - **Desktop web:** the same flow on a big screen
 
-Current version: **v16** (inbox with Messages and Activity, chat actions).
+Current version: **v28** (makers and workshops, made to order).
 
 ## See it
 
