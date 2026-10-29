@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inkingi mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0A0C0F; --card:#14171C; --line:#23272E; --text:#F3F4F6; --muted:#9BA3AE; --gold:#F5B517; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); font: 15px/1.5 Inter, system-ui, sans-serif; display: flex; align-items: center; justify-content: center; padding: 32px 16px; }
+  main { width: 100%; max-width: 560px; }
+  .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+  .mark { width: 34px; height: 34px; border-radius: 10px; background: var(--gold); display: flex; align-items: flex-end; justify-content: center; gap: 4px; padding-bottom: 7px; }
+  .mark i { width: 5px; border-radius: 1px; background: var(--bg); display: block; }
+  h1 { font: 700 26px/1.2 'Inter Tight', sans-serif; letter-spacing: -0.4px; margin: 0; }
+  p { color: var(--muted); margin: 6px 0 28px; }
+  a.card { display: flex; align-items: center; gap: 16px; padding: 18px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); color: var(--text); text-decoration: none; margin-bottom: 12px; transition: border-color .2s, transform .12s; }
+  a.card:hover { border-color: var(--gold); }
+  a.card:active { transform: scale(.98); }
+  .ico { width: 44px; height: 44px; border-radius: 12px; background: #1C2027; display: flex; align-items: center; justify-content: center; flex: none; }
+  .t { font-weight: 600; }
+  .s { color: var(--muted); font-size: 13px; }
+  .arrow { margin-left: auto; color: var(--muted); }
+  footer { color: var(--muted); font-size: 12px; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="logo">
+    <div class="mark" aria-hidden="true"><i style="height:12px"></i><i style="height:17px"></i><i style="height:12px"></i></div>
+    <div>
+      <h1>Inkingi mockup</h1>
+    </div>
+  </div>
+  <p>Live, clickable design of the Inkingi web and app. Tap around: everything is a mockup, nothing is saved.</p>
+
+  <a class="card" href="phone.html">
+    <div class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5B517" stroke-width="2" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
+    <div><div class="t">Phone</div><div class="s">First visit → signed-in app</div></div>
+    <span class="arrow" aria-hidden="true">→</span>
+  </a>
+  <a class="card" href="desktop.html">
+    <div class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5B517" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+    <div><div class="t">Desktop web</div><div class="s">Same flow on a big screen</div></div>
+    <span class="arrow" aria-hidden="true">→</span>
+  </a>
+
+  <footer id="ver">Alta Vision Ltd · Kigali</footer>
+</main>
+<script>
+  fetch('design/canvas.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (c) {
+    var n = c.notes && c.notes.t1 && c.notes.t1.text;
+    if (n) document.getElementById('ver').textContent = n + ' · Alta Vision Ltd';
+  }).catch(function () {});
+</script>
+</body>
+</html>

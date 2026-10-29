@@ -1,0 +1,9 @@
+{
+  "name": "inkingi-mockup",
+  "version": "16.0.0",
+  "private": true,
+  "description": "Clickable design mockup of Inkingi (phone and desktop web)",
+  "scripts": {
+    "start": "npx --yes serve -l 3000 ."
+  }
+}

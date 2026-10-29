@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0C0F">
+<title>Inkingi · Phone</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #050607; overflow: hidden; }
+  #stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+  #frame { width: 390px; height: 844px; border-radius: 36px; overflow: hidden; box-shadow: 0 0 0 10px #16191E, 0 30px 80px rgba(0,0,0,.6); transform-origin: center center; flex: none; }
+  #back { position: fixed; top: 14px; left: 14px; z-index: 5; color: #9BA3AE; font: 500 13px Inter, system-ui, sans-serif; text-decoration: none; padding: 8px 12px; border-radius: 10px; background: #14171C; border: 1px solid #23272E; }
+  /* On a real phone: fill the screen, no frame */
+  body.device #frame { border-radius: 0; box-shadow: none; transform-origin: top left; }
+  body.device #stage { display: block; }
+  body.device #back { display: none; }
+</style>
+</head>
+<body>
+<a id="back" href="./">← All screens</a>
+<div id="stage"><div id="frame"><div id="app"></div></div></div>
+<script src="runtime/vendor/react.production.min.js"></script>
+<script src="runtime/vendor/react-dom.production.min.js"></script>
+<script src="runtime/dc-lite.js"></script>
+<script>
+  var frame = document.getElementById('frame');
+  function fit() {
+    var w = window.innerWidth, hgt = window.innerHeight;
+    var device = w < 600;
+    document.body.classList.toggle('device', device);
+    var root = document.querySelector('#app > div');
+    if (device) {
+      // Scale the 390px design to the screen width, and stretch its height to the screen.
+      var s = w / 390, tall = hgt / s;
+      frame.style.transform = 'scale(' + s + ')';
+      frame.style.height = tall + 'px';
+      if (root) root.style.height = tall + 'px';
+    } else {
+      var s2 = Math.min(1, (hgt - 48) / 844, (w - 48) / 390);
+      frame.style.transform = 'scale(' + s2 + ')';
+      frame.style.height = '844px';
+      if (root) root.style.height = '844px';
+    }
+  }
+  window.addEventListener('resize', fit);
+  DCLite.mount('design/Main.dc.html', document.getElementById('app')).then(function () {
+    requestAnimationFrame(fit);
+  });
+  fit();
+</script>
+</body>
+</html>

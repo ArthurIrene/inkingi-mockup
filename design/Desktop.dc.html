@@ -1,0 +1,1151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Inkingi desktop v2</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#F5B517}a:hover{color:#FFD15C}
+button{font:inherit;cursor:pointer}
+.t{transition:transform .12s cubic-bezier(.2,.8,.2,1),background-color .2s,border-color .2s,color .2s,box-shadow .2s}
+.t:active{transform:scale(.975)}
+.h:hover{border-color:#3A404A !important;box-shadow:0 12px 32px rgba(0,0,0,.35)}
+.lk:hover{color:#F3F4F6 !important}
+.num{font-variant-numeric:tabular-nums}
+.ns{scrollbar-width:thin;scrollbar-color:#2E333B transparent}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.fade{animation:fade .25s ease-out}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.fu{animation:fu .5s cubic-bezier(.2,.8,.2,1) both}
+.d1{animation-delay:.07s}.d2{animation-delay:.14s}.d3{animation-delay:.21s}.d4{animation-delay:.28s}
+@keyframes pop{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%)}}
+.dlg{animation:pop .3s cubic-bezier(.2,.9,.25,1) both}
+@keyframes rise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.rise{transform-origin:bottom;animation:rise .8s cubic-bezier(.2,.9,.25,1) both}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.live{animation:pulse 1.8s ease-in-out infinite}
+</style>
+</helmet>
+<div style="width: 100%; height: 820px; position: relative; overflow: hidden; display: flex; flex-direction: column; background: #0A0C0F; color: #F3F4F6; font-family: Inter, system-ui, sans-serif; font-size: 15px; line-height: 1.5">
+
+<!-- TOP BAR -->
+<div style="border-bottom: 1px solid #1E2228; background: #0A0C0F">
+<div style="max-width: 1240px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px">
+<button class="t" onClick="{{goHome}}" aria-label="Inkingi home" style="display: flex; align-items: center; gap: 10px; background: none; border: 0; padding: 0; color: #F3F4F6">
+<div style="width: 30px; height: 30px; border-radius: 8px; background: #F5B517; display: flex; align-items: flex-end; justify-content: center; gap: 3px; padding-bottom: 6px; box-sizing: border-box"><div style="width: 4px; height: 12px; border-radius: 1px; background: #0A0C0F"></div><div style="width: 4px; height: 16px; border-radius: 1px; background: #0A0C0F"></div><div style="width: 4px; height: 12px; border-radius: 1px; background: #0A0C0F"></div></div>
+<span style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.3px">Inkingi</span>
+</button>
+<div style="display: flex; flex-wrap: wrap; gap: 2px">
+<button class="t lk" onClick="{{goHome}}" style="background: none; border: 0; border-radius: 10px; padding: 8px 12px; font-weight: 500; color: {{navHome}}">Home</button>
+<button class="t lk" onClick="{{goGuide}}" style="background: none; border: 0; border-radius: 10px; padding: 8px 12px; font-weight: 500; color: {{navGuide}}">Guide</button>
+<button class="t lk" onClick="{{goExplore}}" style="background: none; border: 0; border-radius: 10px; padding: 8px 12px; font-weight: 500; color: {{navExplore}}">Explore</button>
+<button class="t lk" onClick="{{goPrices}}" style="background: none; border: 0; border-radius: 10px; padding: 8px 12px; font-weight: 500; color: {{navPrices}}">Materials</button>
+<button class="t lk" onClick="{{goPeople}}" style="background: none; border: 0; border-radius: 10px; padding: 8px 12px; font-weight: 500; color: {{navPeople}}">People</button>
+</div>
+<div style="flex: 1"></div>
+<button class="t" onClick="{{searchTap}}" aria-label="Search" style="display: flex; align-items: center; gap: 10px; min-width: 200px; height: 40px; border-radius: 12px; border: 1px solid #23272E; background: #14171C; color: #7D8591; padding: 0 14px; text-align: left"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA3AE" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M20 20l-4.2-4.2"></path></svg>Search Inkingi</button>
+<sc-if value="{{isMember}}" hint-placeholder-val="{{ false }}"><button class="t" onClick="{{openCreate}}" style="display: flex; align-items: center; gap: 6px; height: 40px; border-radius: 12px; border: 0; background: #F5B517; color: #0A0C0F; padding: 0 14px; font-weight: 600"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A0C0F" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Post</button></sc-if>
+<sc-if value="{{isGuest}}" hint-placeholder-val="{{ true }}">
+<button class="t" onClick="{{openJoin}}" style="height: 40px; border-radius: 12px; border: 0; background: #F3F4F6; color: #0A0C0F; padding: 0 16px; font-weight: 600">Sign in</button>
+</sc-if>
+<sc-if value="{{isMember}}" hint-placeholder-val="{{ false }}">
+<button class="t" onClick="{{inboxTap}}" aria-label="Inbox" style="width: 40px; height: 40px; border-radius: 12px; border: 1px solid #23272E; background: #14171C; display: flex; align-items: center; justify-content: center; position: relative"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F3F4F6" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"></path></svg><span style="position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: #F5B517"></span></button>
+<button class="t" onClick="{{editPrefs}}" aria-label="Your profile and preferences" style="width: 40px; height: 40px; border-radius: 50%; border: 0; background: #2A2312; color: #F5B517; font-weight: 600">A</button>
+</sc-if>
+</div>
+</div>
+
+<div class="ns" style="flex: 1; overflow-y: auto">
+<div style="max-width: 1240px; margin: 0 auto; padding: 0 24px 80px; box-sizing: border-box">
+
+<!-- ================= GUEST HOME = LANDING ================= -->
+<sc-if value="{{showLanding}}" hint-placeholder-val="{{ true }}">
+<div style="min-height: 600px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px; padding: 40px 0 20px">
+<div style="flex: 1 1 520px; min-width: 0">
+<h1 class="fu" style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 78px; line-height: 0.96; letter-spacing: -3px; margin: 0 0 22px">Everyone and everything in construction.<br><span style="color: #F5B517">One home.</span></h1>
+<p class="fu d1" style="margin: 0; color: #9BA3AE; font-size: 21px">The people, materials and know-how to build in Rwanda.</p>
+<div class="fu d2" style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 36px">
+<button class="t" onClick="{{openStart}}" style="height: 58px; border-radius: 16px; border: 0; background: #F5B517; color: #0A0C0F; padding: 0 34px; font-weight: 600; font-size: 17px">Get started</button>
+<button class="t lk" onClick="{{goExplore}}" style="height: 58px; border: 0; background: none; color: #9BA3AE; padding: 0 14px; font-weight: 500; font-size: 16px">Just look around →</button>
+</div>
+</div>
+<div aria-hidden="true" style="flex: 1 1 300px; display: flex; justify-content: center; align-items: flex-end; gap: 18px; height: 360px">
+<div class="rise" style="width: 76px; height: 220px; border-radius: 16px 16px 6px 6px; background: #1C2027; border: 1px solid #23272E"></div>
+<div class="rise" style="width: 76px; height: 340px; border-radius: 16px 16px 6px 6px; background: #F5B517; animation-delay: .12s"></div>
+<div class="rise" style="width: 76px; height: 220px; border-radius: 16px 16px 6px 6px; background: #1C2027; border: 1px solid #23272E; animation-delay: .24s"></div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px">
+<button class="t h" onClick="{{goPeople}}" style="text-align: left; background: #14171C; border: 1px solid #23272E; border-radius: 22px; padding: 22px; color: #F3F4F6"><div style="font-weight: 600; font-size: 19px">People</div><div style="color: #9BA3AE; margin-top: 4px">Verified pros, technicians, stores and drivers</div></button>
+<button class="t h" onClick="{{goPrices}}" style="text-align: left; background: #14171C; border: 1px solid #23272E; border-radius: 22px; padding: 22px; color: #F3F4F6"><div style="font-weight: 600; font-size: 19px">Materials</div><div style="color: #9BA3AE; margin-top: 4px">Real prices from stores, order to your site</div></button>
+<button class="t h" onClick="{{goGuide}}" style="text-align: left; background: #14171C; border: 1px solid #23272E; border-radius: 22px; padding: 22px; color: #F3F4F6"><div style="font-weight: 600; font-size: 19px">Guidance</div><div style="color: #9BA3AE; margin-top: 4px">What to know at every stage of a build</div></button>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; justify-content: center; color: #6B7380; font-size: 13px; margin-top: 22px"><span class="live" style="width: 6px; height: 6px; border-radius: 50%; background: #43D19E"></span>Live in Jabana · growing across Rwanda</div>
+</sc-if>
+
+<!-- ================= MEMBER HOME ================= -->
+<sc-if value="{{showMemberHome}}" hint-placeholder-val="{{ false }}">
+<div class="fu" style="padding: 32px 0 0">
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -1.4px">Muraho.</div>
+<button class="t" onClick="{{editPrefs}}" style="display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; padding: 0; color: #9BA3AE; font-size: 16px">{{roleLine}} · change what I see<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9BA3AE" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 22px; align-items: flex-start">
+<div style="flex: 2 1 520px; min-width: 0">
+
+<sc-if value="{{roleBuild}}" hint-placeholder-val="{{ true }}">
+<div class="fu d1" style="border-radius: 26px; padding: 24px; background: #14171C; border: 1px solid #23272E; display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end">
+<div style="flex: 1 1 260px">
+<div style="display: flex; justify-content: space-between; color: #9BA3AE; font-size: 14px"><span>Your build</span><span class="num">{{cur.num}} / 7</span></div>
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -1.4px; line-height: 1.1">{{cur.name}}</div>
+<div style="display: flex; gap: 5px; margin-top: 14px"><sc-for list="{{steps}}" as="s" hint-placeholder-count="7"><button class="t" onClick="{{s.pick}}" aria-label="Set step {{s.name}}" style="flex: 1; height: 10px; border-radius: 5px; border: 0; padding: 0; background: {{s.seg}}"></button></sc-for></div>
+</div>
+<button class="t" onClick="{{goGuide}}" style="flex: 1 1 220px; display: flex; align-items: center; gap: 12px; background: #1C2027; border: 0; border-radius: 18px; padding: 16px; text-align: left; color: #F3F4F6"><div style="flex: 1"><div style="color: #9BA3AE; font-size: 13px">Next to read</div><div style="font-weight: 600">{{cur.next}}</div></div><div style="width: 38px; height: 38px; border-radius: 50%; background: #F5B517; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A0C0F" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div></button>
+</div>
+</sc-if>
+<sc-if value="{{rolePro}}" hint-placeholder-val="{{ false }}">
+<div class="fu d1" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<button class="t" onClick="{{filterQuestions}}" style="text-align: left; border-radius: 22px; padding: 20px; background: #F5B517; border: 0; color: #0A0C0F"><div style="font-size: 13px; font-weight: 600">Questions in your field</div><div class="num" style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -1.4px">3</div><div style="font-size: 13px">waiting for an answer</div></button>
+<div style="border-radius: 22px; padding: 20px; background: #14171C; border: 1px solid #23272E"><div style="color: #9BA3AE; font-size: 13px">Profile views</div><div class="num" style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -1.4px">[n]</div><div style="color: #9BA3AE; font-size: 13px">this week</div></div>
+<div style="border-radius: 22px; padding: 20px; background: #14171C; border: 1px solid #23272E"><div style="display: flex; justify-content: space-between"><span style="font-weight: 600">Profile 70%</span><button class="t" onClick="{{toastProfile}}" style="background: none; border: 0; color: #F5B517; font-weight: 600; padding: 0">Finish</button></div><div style="height: 6px; border-radius: 3px; background: #23272E; margin-top: 14px"><div style="width: 70%; height: 6px; border-radius: 3px; background: #43D19E"></div></div><div style="color: #9BA3AE; font-size: 13px; margin-top: 10px">Add your registration number for the verified badge.</div></div>
+</div>
+</sc-if>
+<sc-if value="{{roleSell}}" hint-placeholder-val="{{ false }}">
+<div class="fu d1" style="display: flex; flex-wrap: wrap; gap: 12px">
+<div style="flex: 2 1 320px; border-radius: 22px; padding: 22px; background: #14171C; border: 1px solid #23272E">
+<div style="color: #9BA3AE; font-size: 13px">Your prices</div>
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.8px">{{freshLine}}</div>
+<div style="color: #9BA3AE; font-size: 14px">Owners trust fresh prices. People viewed your cement price this week.</div>
+<div style="display: flex; gap: 8px; margin-top: 14px"><button class="t" onClick="{{markFresh}}" style="height: 44px; border-radius: 12px; border: 0; background: #F5B517; color: #0A0C0F; padding: 0 16px; font-weight: 600">Prices still right</button><button class="t" onClick="{{goPrices}}" style="height: 44px; border-radius: 12px; border: 1px solid #2E333B; background: #1C2027; color: #F3F4F6; padding: 0 16px; font-weight: 600">Edit prices</button></div>
+</div>
+<div style="flex: 1 1 200px; border-radius: 22px; padding: 22px; background: #14171C; border: 1px solid #23272E"><div style="color: #9BA3AE; font-size: 13px">New orders</div><div class="num" style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -1.4px">0</div><div style="color: #9BA3AE; font-size: 13px">Free during the launch period</div></div>
+</div>
+</sc-if>
+<sc-if value="{{roleWork}}" hint-placeholder-val="{{ false }}">
+<div class="fu d1" style="display: flex; flex-wrap: wrap; gap: 12px">
+<div style="flex: 2 1 300px; border-radius: 22px; padding: 22px; background: #14171C; border: 1px solid #23272E; display: flex; gap: 16px; align-items: center">
+<div style="width: 64px; height: 64px; border-radius: 18px; background: #2A2312; color: #F5B517; font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 26px; display: flex; align-items: center; justify-content: center">{{tradeInitial}}</div>
+<div style="flex: 1"><div style="color: #9BA3AE; font-size: 13px">Your trade card</div><div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 28px; letter-spacing: -0.6px">{{workTrade}}</div><div style="color: #9BA3AE">{{level}} · Jabana</div></div>
+<button class="t" onClick="{{askVouch}}" style="height: 44px; border-radius: 12px; border: 1px solid #2E333B; background: #1C2027; color: #F3F4F6; padding: 0 14px; font-weight: 600">Ask to be vouched for</button>
+</div>
+<div style="flex: 1 1 160px; border-radius: 22px; padding: 22px; background: #14171C; border: 1px solid #23272E"><div style="color: #9BA3AE; font-size: 13px">Contact requests</div><div class="num" style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -1.4px">0</div></div>
+<button class="t" onClick="{{toggleAvail}}" style="flex: 1 1 160px; text-align: left; border-radius: 22px; padding: 22px; border: 0; background: {{availBg}}; color: {{availFg}}"><div style="font-size: 13px">Status · tap to change</div><div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 22px; margin-top: 10px">{{availLabel}}</div></button>
+</div>
+</sc-if>
+<sc-if value="{{roleDrive}}" hint-placeholder-val="{{ false }}">
+<div class="fu d1" style="display: flex; flex-wrap: wrap; gap: 12px">
+<div style="flex: 2 1 320px; border-radius: 22px; padding: 22px; background: #14171C; border: 1px solid #23272E">
+<div style="color: #9BA3AE; font-size: 13px">{{vehicle}} · Jabana</div>
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -1px">{{availBig}}</div>
+<div style="color: #9BA3AE">Stores and owners near you can send delivery requests.</div>
+<button class="t" onClick="{{toggleAvail}}" style="margin-top: 14px; height: 46px; border-radius: 12px; border: 0; padding: 0 18px; font-weight: 600; background: {{availBg}}; color: {{availFg}}">{{availBtn}}</button>
+</div>
+<div style="flex: 1 1 180px; border-radius: 22px; padding: 22px; background: #14171C; border: 1px solid #23272E"><div style="color: #9BA3AE; font-size: 13px">Requests today</div><div class="num" style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -1.4px">0</div></div>
+</div>
+</sc-if>
+<sc-if value="{{roleCompany}}" hint-placeholder-val="{{ false }}">
+<div class="fu d1" style="margin: 16px 0 0; border-radius: 24px; padding: 18px; background: #14171C; border: 1px solid #23272E">
+<div style="display: flex; align-items: center; gap: 12px">
+<div style="width: 52px; height: 52px; border-radius: 14px; background: #F3F4F6; color: #0A0C0F; font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 20px; display: flex; align-items: center; justify-content: center">{{coInitial}}</div>
+<div style="flex: 1"><div style="color: #9BA3AE; font-size: 12px">Your company page</div><div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.4px">{{coType}}</div></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; margin-top: 14px">
+<div style="display: flex; align-items: center; gap: 10px; font-size: 14px"><span style="width: 10px; height: 10px; border-radius: 50%; background: #43D19E"></span><span style="flex: 1">Owner ID</span><span style="color: #43D19E; font-size: 12px; font-weight: 600">Checked</span></div>
+<div style="display: flex; align-items: center; gap: 10px; font-size: 14px"><span style="width: 10px; height: 10px; border-radius: 50%; background: #F5B517"></span><span style="flex: 1">Business registration</span><span style="color: #F5B517; font-size: 12px; font-weight: 600">Being checked</span></div>
+<div style="display: flex; align-items: center; gap: 10px; font-size: 14px"><span style="width: 10px; height: 10px; border-radius: 50%; background: #3A404A"></span><span style="flex: 1">Team members</span><span style="color: #9BA3AE; font-size: 12px; font-weight: 600">None yet</span></div>
+</div>
+<button class="t" onClick="{{inviteTeam}}" style="width: 100%; height: 46px; margin-top: 14px; border-radius: 12px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600">Invite your team</button>
+</div>
+</sc-if>
+
+<sc-if value="{{roleLook}}" hint-placeholder-val="{{ false }}">
+<div class="fu d1" style="border-radius: 26px; padding: 24px; background: #14171C; border: 1px solid #23272E"><div style="font-weight: 600; font-size: 18px">Thinking of building one day?</div><div style="color: #9BA3AE; margin-top: 4px">Start with step 1 and see what a real build costs.</div><button class="t" onClick="{{goGuide}}" style="margin-top: 14px; height: 44px; border-radius: 12px; border: 0; background: #F5B517; color: #0A0C0F; padding: 0 16px; font-weight: 600">Start with Land</button></div>
+</sc-if>
+
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 14px">
+<sc-for list="{{homeChips}}" as="c" hint-placeholder-count="4"><button class="t" onClick="{{c.pick}}" style="height: 38px; border-radius: 999px; padding: 0 16px; font-weight: 500; font-size: 14px; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button></sc-for>
+<button class="t" onClick="{{editPrefs}}" aria-label="Edit what I see" style="width: 38px; height: 38px; border-radius: 50%; border: 1px dashed #3A404A; background: none; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA3AE" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px">
+<sc-for list="{{homePosts}}" as="po" hint-placeholder-count="4">
+<div class="fu h" style="display: flex; flex-direction: column; background: #14171C; border: 1px solid #23272E; border-radius: 22px; overflow: hidden">
+<button class="t" onClick="{{po.open}}" style="flex: 1; display: block; width: 100%; background: none; border: 0; padding: 0; text-align: left; color: #F3F4F6">
+<sc-if value="{{po.hasImage}}" hint-placeholder-val="{{ true }}"><div style="height: 160px; background: #1C2027; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="100" height="86" viewBox="0 0 80 74" fill="none" stroke="#3A404A" stroke-width="1.6" stroke-linejoin="round"><path d="M6 40L40 12l34 28"></path><rect x="16" y="37" width="48" height="32"></rect><rect x="34" y="50" width="12" height="19"></rect></svg></div></sc-if>
+<div style="padding: 16px 18px 0"><div style="font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase"><span style="color: {{po.labelColor}}">{{po.label}}</span><span style="color: #6B7380"> · {{po.step}}</span></div><div style="font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 18px; margin-top: 4px; letter-spacing: -0.2px">{{po.title}}</div><div style="color: #9BA3AE; font-size: 13px; margin-top: 2px">{{po.meta}}</div></div>
+</button>
+<div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px 16px">
+<div style="width: 26px; height: 26px; border-radius: 50%; background: #23272E; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center">{{po.initial}}</div>
+<span style="font-size: 13px; color: #C9CED6">{{po.by}}</span>
+<sc-if value="{{po.verified}}" hint-placeholder-val="{{ true }}"><svg role="img" aria-label="Verified" width="14" height="14" viewBox="0 0 24 24" fill="#43D19E"><circle cx="12" cy="12" r="10"></circle><path d="M8 12.3l2.6 2.6L16 9.5" fill="none" stroke="#0A0C0F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+<div style="flex: 1"></div>
+<button class="t num" onClick="{{po.helpful}}" style="display: flex; align-items: center; gap: 5px; height: 32px; border-radius: 999px; padding: 0 11px; font-size: 13px; font-weight: 600; background: {{po.hBg}}; color: {{po.hFg}}; border: 1px solid {{po.hBd}}"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M7 10v10H4V10zM7 10l4-7c1.5 0 2.5 1 2.5 2.5V9h5a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.3 20H7"></path></svg>{{po.count}}</button>
+<button class="t" onClick="{{po.save}}" aria-label="Save" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #2E333B; background: #14171C; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="{{po.sFill}}" stroke="{{po.sStroke}}" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></button>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="background: #14171C; border: 1px solid #23272E; border-radius: 22px; overflow: hidden">
+<div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px 6px; font-weight: 600"><span class="live" style="width: 7px; height: 7px; border-radius: 50%; background: #43D19E"></span>Prices this week</div>
+<sc-for list="{{prices}}" as="p" hint-placeholder-count="4"><button class="t" onClick="{{goPrices}}" style="width: 100%; display: flex; justify-content: space-between; gap: 8px; background: none; border: 0; border-top: 1px solid #1E2228; padding: 10px 18px; text-align: left; color: #F3F4F6"><span><span style="font-weight: 500">{{p.name}}</span><span style="display: block; color: #9BA3AE; font-size: 12px">{{p.updated}}</span></span><span class="num" style="font-family: 'Inter Tight', sans-serif; font-weight: 600">{{p.price}}</span></button></sc-for>
+</div>
+<div style="background: #14171C; border: 1px solid #23272E; border-radius: 22px; padding: 16px 18px">
+<div style="font-weight: 600; margin-bottom: 8px">Verified people near you</div>
+<sc-for list="{{people}}" as="pp" hint-placeholder-count="3"><div style="display: flex; align-items: center; gap: 10px; padding: 8px 0"><div style="width: 36px; height: 36px; border-radius: 50%; background: #23272E; font-weight: 600; display: flex; align-items: center; justify-content: center">{{pp.initial}}</div><div style="flex: 1; min-width: 0"><div style="font-weight: 500; font-size: 14px">{{pp.role}}</div><div style="font-size: 12px; color: {{pp.trustColor}}">{{pp.trust}}</div></div></div></sc-for>
+<button class="t" onClick="{{goPeople}}" style="width: 100%; height: 40px; margin-top: 6px; border-radius: 12px; border: 1px solid #2E333B; background: #1C2027; color: #F3F4F6; font-weight: 600">See all people</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- ================= EXPLORE ================= -->
+<sc-if value="{{tabExplore}}" hint-placeholder-val="{{ false }}">
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 40px; letter-spacing: -1.2px; padding-top: 32px">Explore</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px"><sc-for list="{{exploreChips}}" as="c" hint-placeholder-count="6"><button class="t" onClick="{{c.pick}}" style="height: 38px; border-radius: 999px; padding: 0 16px; font-weight: 500; font-size: 14px; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button></sc-for></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px">
+<sc-for list="{{explorePosts}}" as="po" hint-placeholder-count="6">
+<button class="t h fu" onClick="{{po.open}}" style="text-align: left; background: #14171C; border: 1px solid #23272E; border-radius: 22px; overflow: hidden; padding: 0; color: #F3F4F6">
+<sc-if value="{{po.hasImage}}" hint-placeholder-val="{{ true }}"><div style="height: 160px; background: #1C2027; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="100" height="86" viewBox="0 0 80 74" fill="none" stroke="#3A404A" stroke-width="1.6" stroke-linejoin="round"><path d="M6 40L40 12l34 28"></path><rect x="16" y="37" width="48" height="32"></rect><rect x="34" y="50" width="12" height="19"></rect></svg></div></sc-if>
+<div style="padding: 16px 18px"><div style="font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase"><span style="color: {{po.labelColor}}">{{po.label}}</span><span style="color: #6B7380"> · {{po.step}}</span></div><div style="font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 18px; margin-top: 4px">{{po.title}}</div><div class="num" style="color: #9BA3AE; font-size: 13px; margin-top: 8px">{{po.by}} · {{po.count}} found this helpful</div></div>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<!-- ================= GUIDE ================= -->
+<sc-if value="{{tabGuide}}" hint-placeholder-val="{{ false }}">
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 40px; letter-spacing: -1.2px; padding-top: 32px">Guide</div>
+<div style="color: #9BA3AE">From finding land to moving in. Pick a stage.</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 22px; align-items: flex-start">
+<div style="flex: 1 1 420px; min-width: 0; background: #14171C; border: 1px solid #23272E; border-radius: 26px; padding: 22px">
+<div style="display: flex; align-items: flex-end; gap: 10px; height: 230px">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="7"><button class="t" onClick="{{s.pick}}" aria-label="Step {{s.num}}: {{s.name}}" style="flex: 1; display: flex; align-items: flex-end; height: 100%; background: none; border: 0; padding: 0"><div class="rise" style="width: 100%; border-radius: 10px 10px 4px 4px; height: {{s.hG}}px; background: {{s.pillarSel}}; animation-delay: {{s.delay}}s; display: flex; justify-content: center; padding-top: 8px; box-sizing: border-box"><span class="num" style="font-size: 12px; font-weight: 600; color: {{s.pillarSelText}}">{{s.num}}</span></div></button></sc-for>
+</div>
+<div style="display: flex; gap: 10px; margin-top: 8px"><sc-for list="{{steps}}" as="s" hint-placeholder-count="7"><span style="flex: 1; text-align: center; font-size: 12px; color: #9BA3AE">{{s.name}}</span></sc-for></div>
+</div>
+<div class="fu" style="flex: 1 1 380px; min-width: 0; background: #14171C; border: 1px solid #23272E; border-radius: 26px; padding: 24px">
+<div style="color: #F5B517; font-size: 12px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase">What you need to know</div>
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -1px">{{cur.name}}</div>
+<div style="color: #9BA3AE">{{cur.line}}</div>
+<div style="display: flex; flex-direction: column; gap: 8px; margin-top: 16px"><sc-for list="{{cur.topics}}" as="t" hint-placeholder-count="3"><button class="t" onClick="{{topicTap}}" style="display: flex; align-items: center; justify-content: space-between; background: #1C2027; border: 0; border-radius: 14px; padding: 15px 16px; text-align: left; color: #F3F4F6; font-weight: 500"><span>{{t}}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA3AE" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg></button></sc-for></div>
+<div style="color: #9BA3AE; font-size: 13px; margin-top: 12px">Reviewed by a verified professional · [review date]</div>
+</div>
+</div>
+</sc-if>
+
+<!-- ================= PRICES ================= -->
+<sc-if value="{{tabPrices}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px; padding-top: 32px">
+<div style="flex: 1 1 320px"><div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 40px; letter-spacing: -1.2px">Materials</div>
+<div style="display: flex; align-items: center; gap: 8px; color: #9BA3AE"><span class="live" style="width: 7px; height: 7px; border-radius: 50%; background: #43D19E"></span>Near Jabana · prices set by stores</div></div>
+<button class="t" onClick="{{searchTap}}" aria-label="Search materials" style="flex: 0 1 380px; display: flex; align-items: center; gap: 10px; height: 48px; border-radius: 14px; border: 1px solid #23272E; background: #14171C; color: #7D8591; padding: 0 16px; text-align: left"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9BA3AE" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M20 20l-4.2-4.2"></path></svg>Search cement, steel, tiles…</button>
+</div>
+
+<div class="ns" style="display: flex; gap: 14px; overflow-x: auto; padding: 22px 0 6px">
+<sc-for list="{{cats}}" as="c" hint-placeholder-count="11">
+<button class="t" onClick="{{c.pick}}" style="flex: none; width: 76px; display: flex; flex-direction: column; align-items: center; gap: 8px; background: none; border: 0; padding: 0">
+<div style="width: 68px; height: 68px; border-radius: 20px; display: flex; align-items: center; justify-content: center; background: {{c.bg}}; border: 1px solid {{c.bd}}"><svg aria-hidden="true" width="32" height="32" viewBox="0 0 64 64" fill="none" stroke="{{c.stroke}}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="{{c.icon}}"></path></svg></div>
+<span style="font-size: 12px; font-weight: 600; white-space: nowrap; color: {{c.fg}}">{{c.label}}</span>
+</button>
+</sc-for>
+</div>
+
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 24px; letter-spacing: -0.4px; margin: 28px 0 14px">Stores near you</div>
+<div class="ns" style="display: flex; gap: 14px; overflow-x: auto; padding-bottom: 6px">
+<sc-for list="{{stores}}" as="s" hint-placeholder-count="4">
+<button class="t h fu" onClick="{{s.open}}" style="flex: none; width: 300px; text-align: left; border-radius: 24px; border: 1px solid #23272E; background: #14171C; overflow: hidden; padding: 0; color: #F3F4F6">
+<div style="height: 130px; position: relative; background: {{s.tint}}; display: flex; align-items: center; justify-content: center">
+<svg aria-hidden="true" width="88" height="88" viewBox="0 0 64 64" fill="none" stroke="{{s.stroke}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="{{s.icon}}"></path></svg>
+<span style="position: absolute; top: 12px; left: 12px; border-radius: 999px; padding: 5px 11px; background: rgba(10,12,15,.72); font-size: 12px; font-weight: 600">New on Inkingi</span>
+</div>
+<div style="padding: 16px">
+<div style="display: flex; align-items: center; gap: 6px"><span style="font-weight: 600; font-size: 17px">{{s.name}}</span><sc-if value="{{s.verified}}" hint-placeholder-val="{{ true }}"><svg role="img" aria-label="Verified" width="15" height="15" viewBox="0 0 24 24" fill="#43D19E"><circle cx="12" cy="12" r="10"></circle><path d="M8 12.3l2.6 2.6L16 9.5" fill="none" stroke="#0A0C0F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if></div>
+<div style="color: #9BA3AE; font-size: 13px">{{s.area}} · {{s.delivery}}</div>
+<div style="color: #C9CED6; font-size: 13px; margin-top: 8px">{{s.groups}}</div>
+</div>
+</button>
+</sc-for>
+</div>
+
+<sc-if value="{{isAllCat}}" hint-placeholder-val="{{ true }}">
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 24px; letter-spacing: -0.4px; margin: 32px 0 14px">Materials</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px">
+<sc-for list="{{products}}" as="p" hint-placeholder-count="8">
+<button class="t h fu" onClick="{{p.open}}" style="text-align: left; border-radius: 22px; border: 1px solid #23272E; background: #14171C; overflow: hidden; padding: 0; color: #F3F4F6">
+<div style="height: 150px; position: relative; background: {{p.tint}}; display: flex; align-items: center; justify-content: center">
+<svg aria-hidden="true" width="72" height="72" viewBox="0 0 64 64" fill="none" stroke="{{p.stroke}}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="{{p.icon}}"></path></svg>
+<span style="position: absolute; right: 10px; bottom: 10px; width: 34px; height: 34px; border-radius: 50%; background: #F3F4F6; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A0C0F" stroke-width="2.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+</div>
+<div style="padding: 12px 14px 14px">
+<div style="font-weight: 600">{{p.name}}</div>
+<div style="color: #9BA3AE; font-size: 13px">{{p.unit}}</div>
+<div class="num" style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 16px; margin-top: 6px">from RWF [price]</div>
+<div style="color: #9BA3AE; font-size: 12px">{{p.storesLabel}}</div>
+</div>
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{isCompare}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 32px 0 4px; font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 24px; letter-spacing: -0.4px">Compare {{catLower}} near you</div>
+<div style="color: #9BA3AE; font-size: 14px">{{offerCount}} offers · every price shows when it was last updated</div>
+<div class="ns" style="display: flex; gap: 8px; overflow-x: auto; padding: 14px 0">
+<sc-for list="{{sorts}}" as="c" hint-placeholder-count="3"><button class="t" onClick="{{c.pick}}" style="flex: none; height: 34px; border-radius: 999px; padding: 0 14px; font-size: 13px; font-weight: 500; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button></sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px">
+<sc-for list="{{offers}}" as="o" hint-placeholder-count="2">
+<div class="fu h" style="border-radius: 22px; background: #14171C; border: 1px solid #23272E; overflow: hidden">
+<button class="t" onClick="{{o.open}}" style="width: 100%; display: flex; align-items: center; gap: 10px; background: none; border: 0; border-bottom: 1px solid #1E2228; padding: 12px 14px; text-align: left; color: #F3F4F6">
+<div style="width: 36px; height: 36px; border-radius: 10px; background: {{o.sTint}}; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 64 64" fill="none" stroke="{{o.sStroke}}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="{{o.sIcon}}"></path></svg></div>
+<div style="flex: 1; min-width: 0"><div style="display: flex; align-items: center; gap: 5px"><span style="font-weight: 600">{{o.storeName}}</span><sc-if value="{{o.verified}}" hint-placeholder-val="{{ true }}"><svg role="img" aria-label="Verified" width="13" height="13" viewBox="0 0 24 24" fill="#43D19E"><circle cx="12" cy="12" r="10"></circle><path d="M8 12.3l2.6 2.6L16 9.5" fill="none" stroke="#0A0C0F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if></div><div style="color: #9BA3AE; font-size: 12px">{{o.area}} · [x] km away</div></div>
+<span style="border-radius: 999px; padding: 4px 9px; background: #12291F; color: #43D19E; font-size: 11px; font-weight: 600">In stock</span>
+</button>
+<div style="display: flex; gap: 12px; padding: 14px">
+<div style="width: 76px; height: 76px; border-radius: 16px; background: {{o.pTint}}; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="42" height="42" viewBox="0 0 64 64" fill="none" stroke="{{o.pStroke}}" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{o.pIcon}}"></path></svg></div>
+<div style="flex: 1; min-width: 0">
+<div style="font-weight: 600">{{o.product}}</div>
+<div style="color: #C9CED6; font-size: 13px">{{o.spec}}</div>
+<div class="num" style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 22px; margin-top: 4px">RWF [price] <span style="font-family: Inter, sans-serif; font-weight: 400; font-size: 12px; color: #9BA3AE">{{o.unit}}</span></div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px">
+<span style="border-radius: 999px; padding: 4px 10px; background: #1C2027; color: #C9CED6; font-size: 12px">{{o.delivery}}</span>
+<span style="border-radius: 999px; padding: 4px 10px; background: #1C2027; color: #C9CED6; font-size: 12px">{{o.updated}}</span>
+</div>
+<div style="display: flex; gap: 8px; padding: 12px 14px 14px">
+<button class="t" onClick="{{o.open}}" style="flex: 1; height: 42px; border-radius: 12px; border: 1px solid #2E333B; background: #1C2027; color: #F3F4F6; font-weight: 600">View store</button>
+<button class="t" onClick="{{o.add}}" style="flex: 1.4; height: 42px; border-radius: 12px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600">Add to order</button>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<div style="height: 60px"></div>
+</sc-if>
+
+<!-- ================= PEOPLE ================= -->
+<sc-if value="{{tabPeople}}" hint-placeholder-val="{{ false }}">
+<div style="padding-top: 32px; font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 40px; letter-spacing: -1.2px">People</div>
+<div style="color: #9BA3AE; font-size: 15px">Everyone who works here has their ID checked.</div>
+<div style="display: flex; align-items: center; gap: 8px; padding: 18px 0 0">
+<button class="t" onClick="{{openPF}}" style="display: flex; align-items: center; gap: 6px; min-width: 0; height: 40px; border-radius: 12px; border: 1px solid #2E333B; background: #14171C; color: #F3F4F6; padding: 0 12px 0 14px; font-weight: 600"><span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{typeLabel}}</span></button>
+<div style="flex: 1"></div>
+<span class="num" style="color: #9BA3AE; font-size: 13px; white-space: nowrap">{{peopleCount}}</span>
+<button class="t" onClick="{{openPF}}" aria-expanded="{{pfOpen}}" style="display: flex; align-items: center; gap: 6px; flex: none; height: 40px; border-radius: 12px; border: 1px solid {{pfBd}}; background: {{pfBg}}; color: {{pfFg}}; padding: 0 12px; font-weight: 600"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"></path></svg>Filters<sc-if value="{{hasActive}}" hint-placeholder-val="{{ false }}"><span class="num" style="min-width: 18px; height: 18px; border-radius: 9px; background: #F5B517; color: #0A0C0F; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">{{activeCount}}</span></sc-if></button>
+</div>
+
+<sc-if value="{{pfOpen}}" hint-placeholder-val="{{ false }}">
+<div class="fu" style="margin: 12px 0 0; border-radius: 20px; background: #14171C; border: 1px solid #23272E; padding: 14px 0 12px">
+<div style="padding: 0 14px 6px; color: #9BA3AE; font-size: 12px; font-weight: 600">Who · pick one or more</div>
+<div class="ns" style="display: flex; gap: 6px; overflow-x: auto; flex-wrap: wrap; padding: 0 14px">
+<sc-for list="{{segs}}" as="g" hint-placeholder-count="4"><button class="t" onClick="{{g.pick}}" style="flex: none; height: 34px; border-radius: 999px; padding: 0 12px; font-size: 13px; font-weight: 600; background: {{g.bg}}; color: {{g.fg}}; border: 1px solid {{g.bd}}">{{g.mark}}{{g.label}}</button></sc-for>
+</div>
+<div style="padding: 12px 14px 6px; color: #9BA3AE; font-size: 12px; font-weight: 600">Trade</div>
+<div class="ns" style="display: flex; gap: 6px; overflow-x: auto; flex-wrap: wrap; padding: 0 14px">
+<sc-for list="{{ptrades}}" as="c" hint-placeholder-count="5"><button class="t" onClick="{{c.pick}}" style="flex: none; height: 32px; border-radius: 999px; padding: 0 12px; font-size: 12px; font-weight: 500; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.mark}}{{c.label}}</button></sc-for>
+</div>
+<div style="padding: 12px 14px 6px; color: #9BA3AE; font-size: 12px; font-weight: 600">Area</div>
+<div class="ns" style="display: flex; gap: 6px; overflow-x: auto; flex-wrap: wrap; padding: 0 14px">
+<sc-for list="{{pareas}}" as="c" hint-placeholder-count="3"><button class="t" onClick="{{c.pick}}" style="flex: none; height: 32px; border-radius: 999px; padding: 0 12px; font-size: 12px; font-weight: 500; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.mark}}{{c.label}}</button></sc-for>
+<sc-if value="{{showAvailToggle}}" hint-placeholder-val="{{ false }}"><button class="t" onClick="{{toggleAvailOnly}}" style="flex: none; display: flex; align-items: center; gap: 6px; height: 32px; border-radius: 999px; padding: 0 12px; font-size: 12px; font-weight: 600; background: {{availOnlyBg}}; color: {{availOnlyFg}}; border: 1px solid {{availOnlyBd}}"><span style="width: 7px; height: 7px; border-radius: 50%; background: #43D19E"></span>Available now</button></sc-if>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding: 14px 14px 0">
+<button class="t" onClick="{{clearPF}}" style="height: 36px; border: 0; background: none; color: #9BA3AE; font-weight: 600; padding: 0 4px">Clear all</button>
+<div style="flex: 1"></div>
+<button class="t num" onClick="{{closePF}}" style="height: 38px; border-radius: 12px; border: 0; background: #F3F4F6; color: #0A0C0F; padding: 0 16px; font-weight: 600">Done · {{peopleCount}}</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{showActiveRow}}" hint-placeholder-val="{{ false }}">
+<div class="ns" style="display: flex; gap: 6px; overflow-x: auto; padding: 10px 0 0">
+<sc-for list="{{activeChips}}" as="c" hint-placeholder-count="2"><button class="t" onClick="{{c.remove}}" aria-label="Remove filter {{c.label}}" style="flex: none; display: flex; align-items: center; gap: 6px; height: 30px; border-radius: 999px; border: 0; background: #2A2312; color: #F5B517; padding: 0 10px 0 12px; font-size: 12px; font-weight: 600">{{c.label}}<svg aria-hidden="true" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#F5B517" stroke-width="3.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-for>
+</div>
+</sc-if>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; padding-top: 16px">
+<sc-for list="{{people}}" as="pp" hint-placeholder-count="4">
+<button class="t fu h" onClick="{{pp.open}}" aria-label="{{pp.role}}, {{pp.area}}" style="position: relative; display: block; width: 100%; height: 290px; border-radius: 24px; border: 1px solid #23272E; background: {{pp.photoBg}}; overflow: hidden; padding: 0; text-align: left; color: #F3F4F6">
+<sc-if value="{{pp.isPerson}}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="xMidYMax meet" style="position: absolute; left: 0; right: 0; bottom: 64px; width: 100%; height: calc(100% - 64px)"><circle cx="50" cy="40" r="19" fill="{{pp.photoFg}}"></circle><path d="M12 100c4-24 20-36 38-36s34 12 38 36z" fill="{{pp.photoFg}}"></path></svg></sc-if>
+<sc-if value="{{pp.isCo}}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" style="position: absolute; left: 0; right: 0; top: 0; width: 100%; height: calc(100% - 64px)"><path d="M18 78V44l20-14 20 14v34 M58 78V30h26v48 M30 78V62h16v16 M64 40h6 M74 40h6 M64 52h6 M74 52h6 M64 64h6 M74 64h6 M10 78h82" fill="none" stroke="{{pp.photoFg}}" stroke-width="3" stroke-linejoin="round"></path></svg><span style="position: absolute; left: 12px; bottom: 74px; width: 40px; height: 40px; border-radius: 12px; background: #F3F4F6; color: #0A0C0F; font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 18px; display: flex; align-items: center; justify-content: center">{{pp.initial}}</span></sc-if>
+<span style="position: absolute; top: 10px; left: 10px; font-size: 10px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: rgba(243,244,246,.55)">{{pp.photoLabel}}</span>
+<span class="num" style="position: absolute; top: 8px; right: 8px; display: flex; align-items: center; gap: 4px; border-radius: 999px; padding: 4px 8px; background: rgba(10,12,15,.72); color: {{pp.rFg}}; font-size: 11px; font-weight: 600"><svg aria-hidden="true" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"></path></svg>{{pp.rating}}</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 12px 12px; background: rgba(10,12,15,.86); border-top: 1px solid rgba(255,255,255,.06)">
+<div style="display: flex; align-items: center; gap: 6px"><span style="font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0">{{pp.role}}</span><sc-if value="{{pp.hasAvail}}" hint-placeholder-val="{{ false }}"><span aria-label="{{pp.availLabel}}" role="img" style="width: 8px; height: 8px; border-radius: 50%; flex: none; background: {{pp.availColor}}"></span></sc-if></div>
+<div style="display: flex; align-items: center; gap: 4px; margin-top: 5px">
+<span style="color: #9BA3AE; font-size: 12px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{pp.area}}</span>
+<sc-for list="{{pp.badges}}" as="b" hint-placeholder-count="2"><span role="img" aria-label="{{b.name}}" title="{{b.name}}" style="width: 20px; height: 20px; border-radius: 50%; background: {{b.bg}}; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="{{b.color}}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{b.icon}}"></path></svg></span></sc-for>
+</div>
+</div>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+</div>
+
+<sc-if value="{{hasCart}}" hint-placeholder-val="{{ false }}">
+<div class="fu" style="position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); width: min(520px, 92%); display: flex; align-items: center; gap: 14px; border-radius: 20px; padding: 12px 12px 12px 20px; background: #F3F4F6; color: #0A0C0F; box-shadow: 0 16px 40px rgba(0,0,0,.55); box-sizing: border-box">
+<div style="flex: 1; min-width: 0"><div style="font-size: 13px; color: #4A5260">{{cartStoreName}}</div><div class="num" style="font-weight: 700; font-size: 16px">{{cartLabel}}</div></div>
+<button class="t" onClick="{{reviewOrder}}" style="height: 46px; border-radius: 12px; border: 0; background: #0A0C0F; color: #F3F4F6; padding: 0 20px; font-weight: 600">Send order</button>
+</div>
+</sc-if>
+
+<!-- ================= SEARCH ================= -->
+<sc-if value="{{searchOpen}}" hint-placeholder-val="{{ false }}">
+<div class="fade" style="position: absolute; inset: 0; background: #0A0C0F; display: flex; flex-direction: column">
+<div style="flex: 1; display: flex; flex-direction: column; min-height: 0; width: 100%; max-width: 760px; margin: 0 auto; padding-top: 24px; box-sizing: border-box">
+<div style="display: flex; align-items: center; gap: 10px; padding: 14px 18px 10px">
+<div style="flex: 1; display: flex; align-items: center; gap: 10px; height: 48px; border-radius: 14px; border: 1.5px solid #F5B517; background: #14171C; padding: 0 14px">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5B517" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M20 20l-4.2-4.2"></path></svg>
+<input type="search" value="{{q}}" onChange="{{onQuery}}" placeholder="Materials, stores, people, guide…" aria-label="Search Inkingi" style="flex: 1; min-width: 0; height: 44px; border: 0; outline: none; background: transparent; color: #F3F4F6; font: inherit; font-size: 16px">
+<sc-if value="{{hasQuery}}" hint-placeholder-val="{{ false }}"><button class="t" onClick="{{clearQ}}" aria-label="Clear search" style="width: 26px; height: 26px; border-radius: 50%; border: 0; background: #2E333B; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F3F4F6" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-if>
+</div>
+<button class="t" onClick="{{closeSearch}}" style="height: 44px; border: 0; background: none; color: #F3F4F6; font-weight: 600; padding: 0 4px">Cancel</button>
+</div>
+
+<div class="ns" style="flex: 1; overflow-y: auto; padding-bottom: 30px">
+<sc-if value="{{noQuery}}" hint-placeholder-val="{{ true }}">
+<div style="padding: 12px 18px 10px; color: #6B7380; font-size: 12px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase">Try</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px">
+<sc-for list="{{suggestions}}" as="s" hint-placeholder-count="6"><button class="t" onClick="{{s.pick}}" style="height: 38px; border-radius: 999px; border: 1px solid #2E333B; background: #14171C; color: #F3F4F6; padding: 0 14px; font-weight: 500">{{s.label}}</button></sc-for>
+</div>
+<div style="padding: 24px 18px 6px; color: #6B7380; font-size: 12px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase">Recent</div>
+<sc-for list="{{recents}}" as="r" hint-placeholder-count="2">
+<button class="t" onClick="{{r.pick}}" style="width: 100%; display: flex; align-items: center; gap: 12px; background: none; border: 0; padding: 12px 18px; text-align: left; color: #C9CED6"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7380" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>{{r.label}}</button>
+</sc-for>
+</sc-if>
+
+<sc-if value="{{hasQuery}}" hint-placeholder-val="{{ false }}">
+<div class="ns" style="display: flex; gap: 8px; overflow-x: auto; padding: 6px 18px 12px">
+<sc-for list="{{sTabs}}" as="c" hint-placeholder-count="6"><button class="t num" onClick="{{c.pick}}" style="flex: none; height: 34px; border-radius: 999px; padding: 0 13px; font-size: 13px; font-weight: 500; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button></sc-for>
+</div>
+<sc-if value="{{noHits}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 30px 18px; text-align: center; color: #9BA3AE">Nothing yet for "{{q}}".<br>Try a material, a trade or a place.</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 0 18px">
+<sc-for list="{{sResults}}" as="h" hint-placeholder-count="5">
+<button class="t fu" onClick="{{h.go}}" style="width: 100%; display: flex; align-items: center; gap: 12px; background: #14171C; border: 1px solid #23272E; border-radius: 16px; padding: 10px 12px; text-align: left; color: #F3F4F6">
+<div style="width: 44px; height: 44px; border-radius: 12px; background: {{h.tint}}; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 64 64" fill="none" stroke="{{h.stroke}}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="{{h.icon}}"></path></svg></div>
+<div style="flex: 1; min-width: 0"><div style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{h.title}}</div><div style="color: #9BA3AE; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{h.sub}}</div></div>
+<span style="color: #6B7380; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px">{{h.kind}}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- ================= INBOX ================= -->
+<sc-if value="{{inboxOpen}}" hint-placeholder-val="{{ false }}">
+<button class="fade" onClick="{{closeInbox}}" aria-label="Close inbox" style="position: absolute; inset: 0; background: rgba(0,0,0,.62); border: 0; padding: 0"></button>
+<div class="dlg" style="position: absolute; left: 50%; top: 50%; width: min(1000px, 94%); height: 86%; display: flex; flex-wrap: wrap; background: #0A0C0F; border: 1px solid #2E333B; border-radius: 26px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.6)">
+<div style="flex: 1 1 300px; max-width: 360px; height: 100%; min-height: 0; display: flex; flex-direction: column; border-right: 1px solid #1E2228"><div style="display: flex; align-items: center; gap: 10px; padding: 14px 18px 8px">
+<button class="t" onClick="{{closeInbox}}" aria-label="Close inbox" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid #23272E; background: #14171C; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3F4F6" stroke-width="2.2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<span style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.5px">Inbox</span>
+</div>
+<div style="display: flex; margin: 4px 18px 10px; background: #14171C; border: 1px solid #23272E; border-radius: 14px; padding: 4px">
+<sc-for list="{{ibTabs}}" as="g" hint-placeholder-count="2"><button class="t" onClick="{{g.pick}}" style="flex: 1; height: 36px; border: 0; border-radius: 10px; font-weight: 600; font-size: 13px; background: {{g.bg}}; color: {{g.fg}}">{{g.label}} <span class="num" style="opacity: .6">{{g.count}}</span></button></sc-for>
+</div>
+<div class="ns" style="flex: 1; overflow-y: auto; padding-bottom: 20px">
+<sc-if value="{{ibMessages}}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{chats}}" as="c" hint-placeholder-count="3">
+<button class="t" onClick="{{c.open}}" style="width: 100%; display: flex; align-items: center; gap: 12px; border: 0; padding: 12px 18px; text-align: left; color: #F3F4F6; background: {{c.rowBg}}">
+<div style="width: 48px; height: 48px; border-radius: 50%; background: {{c.tint}}; font-weight: 700; font-size: 18px; display: flex; align-items: center; justify-content: center; flex: none">{{c.initial}}</div>
+<div style="flex: 1; min-width: 0">
+<div style="display: flex; align-items: center; gap: 6px"><span style="font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{c.name}}</span><span style="color: #6B7380; font-size: 12px">{{c.time}}</span></div>
+<div style="color: #F5B517; font-size: 11px; font-weight: 600; margin-top: 1px">About: {{c.about}}</div>
+<div style="display: flex; align-items: center; gap: 6px"><span style="color: #9BA3AE; font-size: 13px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{c.last}}</span><sc-if value="{{c.hasUnread}}" hint-placeholder-val="{{ false }}"><span class="num" style="min-width: 18px; height: 18px; border-radius: 9px; background: #F5B517; color: #0A0C0F; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">{{c.unread}}</span></sc-if></div>
+</div>
+</button>
+</sc-for>
+</sc-if>
+<sc-if value="{{ibActivity}}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{activity}}" as="a" hint-placeholder-count="4">
+<button class="t" onClick="{{a.go}}" style="width: 100%; display: flex; align-items: flex-start; gap: 12px; border: 0; background: none; padding: 12px 18px; text-align: left; color: #F3F4F6">
+<span style="width: 40px; height: 40px; border-radius: 12px; background: {{a.bg}}; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{a.color}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{a.icon}}"></path></svg></span>
+<span style="flex: 1; min-width: 0"><span style="display: flex; gap: 6px"><span style="font-weight: 600; flex: 1">{{a.title}}</span><span style="color: #6B7380; font-size: 12px">{{a.time}}</span></span><span style="display: block; color: #9BA3AE; font-size: 13px">{{a.text}}</span></span>
+</button>
+</sc-for>
+</sc-if>
+</div></div>
+<div style="flex: 2 1 420px; min-width: 0; height: 100%; min-height: 0; display: flex; flex-direction: column">
+<sc-if value="{{showThread}}" hint-placeholder-val="{{ false }}"><div style="flex: 1; min-height: 0; display: flex; flex-direction: column"><div style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid #1E2228">
+<sc-if value="{{showBack}}" hint-placeholder-val="{{ true }}"><button class="t" onClick="{{chatBack}}" aria-label="Back to inbox" style="width: 36px; height: 36px; border-radius: 50%; border: 0; background: #14171C; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3F4F6" stroke-width="2.2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"></path></svg></button></sc-if>
+<div style="width: 40px; height: 40px; border-radius: 50%; background: {{chat.tint}}; font-weight: 700; display: flex; align-items: center; justify-content: center">{{chat.initial}}</div>
+<div style="flex: 1; min-width: 0"><div style="display: flex; align-items: center; gap: 5px"><span style="font-weight: 600">{{chat.name}}</span><sc-if value="{{chat.verified}}" hint-placeholder-val="{{ true }}"><svg role="img" aria-label="Verified" width="13" height="13" viewBox="0 0 24 24" fill="#43D19E"><circle cx="12" cy="12" r="10"></circle><path d="M8 12.3l2.6 2.6L16 9.5" fill="none" stroke="#0A0C0F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if></div><div style="color: #43D19E; font-size: 12px">ID checked</div></div>
+<button class="t" onClick="{{callTap}}" aria-label="Call" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid #23272E; background: #14171C; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3F4F6" stroke-width="2" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></button>
+</div>
+<div style="margin: 10px 16px 0; border-radius: 12px; padding: 9px 12px; background: #2A2312; color: #F5B517; font-size: 12px; font-weight: 600">About: {{chat.about}}</div>
+<div class="ns" style="flex: 1; overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{thread}}" as="m" hint-placeholder-count="4">
+<div style="display: flex; justify-content: {{m.align}}">
+<sc-if value="{{m.isText}}" hint-placeholder-val="{{ true }}"><div class="fu" style="max-width: 78%; border-radius: 18px; padding: 10px 13px; font-size: 14px; background: {{m.bg}}; color: {{m.fg}}">{{m.t}}</div></sc-if>
+<sc-if value="{{m.isQuote}}" hint-placeholder-val="{{ false }}"><div class="fu" style="width: 78%; border-radius: 18px; padding: 14px; background: #14171C; border: 1.5px solid #F5B517">
+<div style="color: #F5B517; font-size: 11px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase">Quote</div>
+<div style="font-weight: 600; margin-top: 2px">{{m.title}}</div>
+<div class="num" style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 22px; margin-top: 4px">{{m.price}}</div>
+<div style="color: #9BA3AE; font-size: 12px">{{m.time}} · {{m.inc}}</div>
+<button class="t" onClick="{{m.accept}}" style="width: 100%; height: 38px; margin-top: 10px; border-radius: 10px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600">Accept quote</button>
+</div></sc-if>
+<sc-if value="{{m.isLoc}}" hint-placeholder-val="{{ false }}"><div class="fu" style="width: 70%; border-radius: 18px; overflow: hidden; background: #14171C; border: 1px solid #23272E"><div style="height: 80px; background: #12291F; position: relative"><div style="position: absolute; left: 50%; top: 50%; width: 70px; height: 70px; margin: -35px 0 0 -35px; border-radius: 50%; border: 2px dashed #43D19E"></div></div><div style="padding: 10px 12px"><div style="font-weight: 600">Site area: {{m.t}}</div><div style="color: #9BA3AE; font-size: 12px">Neighbourhood only, no exact pin</div></div></div></sc-if>
+<sc-if value="{{m.isOrder}}" hint-placeholder-val="{{ false }}"><div class="fu" style="width: 78%; border-radius: 18px; padding: 14px; background: #14171C; border: 1px solid #23272E"><div style="color: #43D19E; font-size: 11px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase">Order sent</div><div style="font-weight: 600; margin-top: 2px">{{m.t}}</div><div style="color: #9BA3AE; font-size: 12px">Waiting for the store to accept · pay on delivery</div></div></sc-if>
+<sc-if value="{{m.isSys}}" hint-placeholder-val="{{ false }}"><div class="fu" style="width: 100%; text-align: center; color: #43D19E; font-size: 12px; padding: 6px 10px">{{m.t}}</div></sc-if>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{chatTray}}" hint-placeholder-val="{{ false }}">
+<div class="fu" style="margin: 0 12px; border-radius: 18px; background: #14171C; border: 1px solid #23272E; overflow: hidden">
+<sc-for list="{{tray}}" as="a" hint-placeholder-count="3"><button class="t" onClick="{{a.go}}" style="width: 100%; display: flex; flex-direction: column; align-items: flex-start; border: 0; border-bottom: 1px solid #1E2228; background: none; padding: 11px 14px; text-align: left; color: #F3F4F6"><span style="font-weight: 600">{{a.label}}</span><span style="color: #9BA3AE; font-size: 12px">{{a.sub}}</span></button></sc-for>
+</div>
+</sc-if>
+<div style="display: flex; align-items: center; gap: 8px; padding: 10px 12px 14px">
+<button class="t" onClick="{{toggleTray}}" aria-label="Chat actions" style="width: 42px; height: 42px; border-radius: 50%; border: 0; flex: none; background: {{trayBg}}; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{trayFg}}" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
+<input type="text" value="{{draft}}" onChange="{{onDraft}}" placeholder="Message" aria-label="Message" style="flex: 1; min-width: 0; height: 42px; border-radius: 21px; border: 1px solid #2E333B; background: #14171C; color: #F3F4F6; padding: 0 16px; font: inherit; font-size: 15px; outline: none">
+<button class="t" onClick="{{sendDraft}}" aria-label="Send" style="width: 42px; height: 42px; border-radius: 50%; border: 0; flex: none; background: #F5B517; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A0C0F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+</div></div></sc-if>
+<sc-if value="{{showPlaceholder}}" hint-placeholder-val="{{ true }}"><div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #9BA3AE; padding: 30px; text-align: center"><svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3A404A" stroke-width="1.6" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"></path></svg><span>Pick a conversation.<br>Quotes, orders and site locations stay here on Inkingi.</span></div></sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- ================= DIALOGS ================= -->
+<sc-if value="{{sheetOpen}}" hint-placeholder-val="{{ false }}">
+<button class="fade" onClick="{{closeSheet}}" aria-label="Close" style="position: absolute; inset: 0; background: rgba(0,0,0,.62); border: 0; padding: 0"></button>
+<div class="dlg ns" style="position: absolute; left: 50%; top: 50%; width: min(500px, 92%); max-height: 88%; overflow-y: auto; background: #14171C; border: 1px solid #2E333B; border-radius: 28px; padding: 26px; box-sizing: border-box; box-shadow: 0 30px 80px rgba(0,0,0,.6)">
+
+<sc-if value="{{showDots}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; gap: 6px; margin-bottom: 18px"><span style="flex: 1; height: 4px; border-radius: 2px; background: {{dot1}}"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: {{dot2}}"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: {{dot3}}"></span></div>
+</sc-if>
+
+<sc-if value="{{sJoin}}" hint-placeholder-val="{{ true }}">
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.8px">{{joinTitle}}</div>
+<div style="color: #9BA3AE; margin: 4px 0 22px">Free. Any country code works.</div>
+<button class="t" onClick="{{toRole}}" style="width: 100%; height: 52px; border-radius: 14px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600; font-size: 15px">Continue with phone number</button>
+<button class="t" onClick="{{toRole}}" style="width: 100%; height: 52px; margin-top: 10px; border-radius: 14px; border: 1px solid #2E333B; background: #1C2027; color: #F3F4F6; font-weight: 600; font-size: 15px">Continue with Google</button>
+<button class="t" onClick="{{toRole}}" style="width: 100%; height: 44px; margin-top: 6px; border: 0; background: none; color: #9BA3AE; font-weight: 500">Use email instead</button>
+</sc-if>
+
+<sc-if value="{{sRole}}" hint-placeholder-val="{{ false }}">
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.8px">What brings you to Inkingi?</div>
+<div style="color: #9BA3AE; margin: 4px 0 18px">This sets up your home. You can add another role later.</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{roles}}" as="r" hint-placeholder-count="4">
+<button class="t" onClick="{{r.pick}}" style="display: flex; align-items: center; gap: 14px; text-align: left; border-radius: 18px; padding: 15px 18px; color: #F3F4F6; background: {{r.bg}}; border: 1.5px solid {{r.bd}}">
+<div style="flex: 1"><div style="font-weight: 600; font-size: 16px">{{r.title}}</div><div style="color: #9BA3AE; font-size: 13px">{{r.sub}}</div></div>
+<div style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid {{r.ring}}; display: flex; align-items: center; justify-content: center"><div style="width: 10px; height: 10px; border-radius: 50%; background: {{r.dotFill}}"></div></div>
+</button>
+</sc-for>
+</div>
+<button class="t" onClick="{{toSub}}" style="width: 100%; height: 52px; margin-top: 18px; border-radius: 14px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600; font-size: 15px">Next</button>
+</sc-if>
+
+<sc-if value="{{sSub}}" hint-placeholder-val="{{ false }}">
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.8px">{{subTitle}}</div>
+<sc-if value="{{subBuild}}" hint-placeholder-val="{{ true }}">
+<div style="color: #9BA3AE; font-size: 13px; margin: 16px 0 8px">Where are you building from?</div>
+<div style="display: flex; background: #0A0C0F; border-radius: 12px; padding: 4px"><sc-for list="{{whereOpts}}" as="w" hint-placeholder-count="2"><button class="t" onClick="{{w.pick}}" style="flex: 1; height: 40px; border: 0; border-radius: 9px; font-weight: 600; background: {{w.bg}}; color: {{w.fg}}">{{w.label}}</button></sc-for></div>
+<div style="color: #9BA3AE; font-size: 13px; margin: 16px 0 8px">Which step are you at?</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{steps}}" as="s" hint-placeholder-count="7"><button class="t" onClick="{{s.pick}}" style="height: 36px; border-radius: 999px; padding: 0 13px; font-size: 13px; font-weight: 500; background: {{s.chipBg}}; color: {{s.chipFg}}; border: 1px solid {{s.chipBd}}">{{s.num}}. {{s.name}}</button></sc-for></div>
+</sc-if>
+<sc-if value="{{subPro}}" hint-placeholder-val="{{ false }}">
+<div style="color: #9BA3AE; font-size: 13px; margin: 16px 0 8px">Your trade</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{trades}}" as="c" hint-placeholder-count="8"><button class="t" onClick="{{c.pick}}" style="height: 36px; border-radius: 999px; padding: 0 13px; font-size: 13px; font-weight: 500; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button></sc-for></div>
+</sc-if>
+<sc-if value="{{subSell}}" hint-placeholder-val="{{ false }}">
+<div style="color: #9BA3AE; font-size: 13px; margin: 16px 0 8px">What do you sell?</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{groups}}" as="c" hint-placeholder-count="8"><button class="t" onClick="{{c.pick}}" style="height: 36px; border-radius: 999px; padding: 0 13px; font-size: 13px; font-weight: 500; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button></sc-for></div>
+<div style="margin-top: 12px; border-radius: 12px; padding: 12px; background: #0A0C0F; color: #9BA3AE; font-size: 13px">Next: drop your store's pin on the map.</div>
+</sc-if>
+<sc-if value="{{subWork}}" hint-placeholder-val="{{ false }}">
+<div style="color: #9BA3AE; font-size: 13px; margin: 16px 0 8px">Your trade</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{workTrades}}" as="c" hint-placeholder-count="8"><button class="t" onClick="{{c.pick}}" style="height: 36px; border-radius: 999px; padding: 0 13px; font-size: 13px; font-weight: 500; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button></sc-for></div>
+<div style="color: #9BA3AE; font-size: 13px; margin: 16px 0 8px">Your level</div>
+<div style="display: flex; background: #0A0C0F; border-radius: 12px; padding: 4px"><sc-for list="{{levels}}" as="w" hint-placeholder-count="3"><button class="t" onClick="{{w.pick}}" style="flex: 1; height: 40px; border: 0; border-radius: 9px; font-weight: 600; background: {{w.bg}}; color: {{w.fg}}">{{w.label}}</button></sc-for></div>
+<div style="margin-top: 12px; border-radius: 12px; padding: 12px; background: #0A0C0F; color: #9BA3AE; font-size: 13px">Next: add your ID to be checked. Trust grows when people you work with vouch for you.</div>
+</sc-if>
+<sc-if value="{{subCompany}}" hint-placeholder-val="{{ false }}">
+<div style="color: #9BA3AE; font-size: 13px; margin: 14px 0 8px">Type of company</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{coTypes}}" as="c" hint-placeholder-count="5"><button class="t" onClick="{{c.pick}}" style="height: 34px; border-radius: 999px; padding: 0 12px; font-size: 13px; font-weight: 500; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button></sc-for></div>
+<div style="margin-top: 12px; border-radius: 12px; padding: 12px; background: #0A0C0F; color: #9BA3AE; font-size: 13px">You join as the owner first. Next: your ID, the business registration and your logo. Then invite your team.</div>
+</sc-if>
+
+<sc-if value="{{subDrive}}" hint-placeholder-val="{{ false }}">
+<div style="color: #9BA3AE; font-size: 13px; margin: 16px 0 8px">Your vehicle</div>
+<div style="display: flex; background: #0A0C0F; border-radius: 12px; padding: 4px"><sc-for list="{{vehicles}}" as="w" hint-placeholder-count="3"><button class="t" onClick="{{w.pick}}" style="flex: 1; height: 40px; border: 0; border-radius: 9px; font-weight: 600; background: {{w.bg}}; color: {{w.fg}}">{{w.label}}</button></sc-for></div>
+<div style="margin-top: 12px; border-radius: 12px; padding: 12px; background: #0A0C0F; color: #9BA3AE; font-size: 13px">Next: pick the area you drive in.</div>
+</sc-if>
+<div style="color: #9BA3AE; font-size: 13px; margin: 18px 0 8px">Show me on my home</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{interestChips}}" as="c" hint-placeholder-count="5"><button class="t" onClick="{{c.pick}}" style="height: 36px; border-radius: 999px; padding: 0 13px; font-size: 13px; font-weight: 500; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.mark}}{{c.label}}</button></sc-for></div>
+<button class="t" onClick="{{finish}}" style="width: 100%; height: 52px; margin-top: 22px; border-radius: 14px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600; font-size: 15px">{{finishLabel}}</button>
+</sc-if>
+
+<!-- get started: pick a path -->
+<sc-if value="{{sStart}}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{startList}}" hint-placeholder-val="{{ true }}">
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.6px">What brings you here?</div>
+<div style="color: #9BA3AE; margin: 4px 0 16px">Pick one. You can add more later.</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{auds}}" as="o" hint-placeholder-count="5">
+<button class="t" onClick="{{o.pick}}" style="display: flex; align-items: center; gap: 14px; text-align: left; border-radius: 18px; padding: 14px; background: #1C2027; border: 1px solid #23272E; color: #F3F4F6">
+<div style="width: 42px; height: 42px; border-radius: 12px; background: #0A0C0F; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5B517" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{o.icon}}"></path></svg></div>
+<div style="flex: 1"><div style="font-weight: 600; font-size: 15px">{{o.label}}</div><div style="color: #9BA3AE; font-size: 12px">{{o.sub}}</div></div>
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7380" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg>
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{startDetail}}" hint-placeholder-val="{{ false }}">
+<button class="t" onClick="{{startBack}}" style="display: flex; align-items: center; gap: 6px; height: 36px; border: 0; background: none; color: #9BA3AE; padding: 0; font-weight: 500"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA3AE" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"></path></svg>All options</button>
+<div class="fu" style="color: #F5B517; font-size: 12px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; margin-top: 8px">{{aud.kicker}}</div>
+<div class="fu" style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 28px; line-height: 1.08; letter-spacing: -0.8px; margin-top: 6px">{{aud.title}}</div>
+<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px">
+<sc-for list="{{aud.points}}" as="pt" hint-placeholder-count="3"><div style="display: flex; gap: 10px; align-items: flex-start"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="#43D19E" style="flex: none; margin-top: 1px"><circle cx="12" cy="12" r="10"></circle><path d="M7.5 12.3l3 3L16.5 9.5" fill="none" stroke="#0A0C0F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color: #C9CED6">{{pt}}</span></div></sc-for>
+</div>
+<button class="t" onClick="{{aud.go1}}" style="width: 100%; height: 52px; margin-top: 20px; border-radius: 14px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600; font-size: 15px">{{aud.cta1}}</button>
+<button class="t" onClick="{{aud.go2}}" style="width: 100%; height: 50px; margin-top: 8px; border-radius: 14px; border: 1px solid #2E333B; background: #1C2027; color: #F3F4F6; font-weight: 600; font-size: 15px">{{aud.cta2}}</button>
+<div style="color: #9BA3AE; font-size: 12px; text-align: center; margin-top: 10px">{{aud.note}}</div>
+</sc-if>
+</sc-if>
+
+<!-- store detail -->
+<sc-if value="{{sStore}}" hint-placeholder-val="{{ false }}">
+<div style="height: 120px; border-radius: 20px; background: {{ds.tint}}; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="80" height="80" viewBox="0 0 64 64" fill="none" stroke="{{ds.stroke}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ds.icon}}"></path></svg></div>
+<div style="display: flex; align-items: center; gap: 6px; margin-top: 14px"><span style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.5px">{{ds.name}}</span><sc-if value="{{ds.verified}}" hint-placeholder-val="{{ true }}"><svg role="img" aria-label="Verified" width="16" height="16" viewBox="0 0 24 24" fill="#43D19E"><circle cx="12" cy="12" r="10"></circle><path d="M8 12.3l2.6 2.6L16 9.5" fill="none" stroke="#0A0C0F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if></div>
+<div style="color: #9BA3AE; font-size: 13px">{{ds.area}} · {{ds.trust}}</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px">
+<span style="border-radius: 999px; padding: 5px 11px; background: #2A2312; color: #F5B517; font-size: 12px; font-weight: 600">New on Inkingi</span>
+<span style="border-radius: 999px; padding: 5px 11px; background: #1C2027; color: #C9CED6; font-size: 12px">{{ds.delivery}}</span>
+<span style="border-radius: 999px; padding: 5px 11px; background: #1C2027; color: #C9CED6; font-size: 12px">{{ds.updated}}</span>
+</div>
+<div style="color: #9BA3AE; font-size: 13px; margin: 18px 0 8px">Materials in this store</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{ds.products}}" as="p" hint-placeholder-count="4">
+<button class="t" onClick="{{p.open}}" style="text-align: left; border-radius: 16px; border: 1px solid #23272E; background: #1C2027; overflow: hidden; padding: 0; color: #F3F4F6">
+<div style="height: 80px; background: {{p.tint}}; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="40" height="40" viewBox="0 0 64 64" fill="none" stroke="{{p.stroke}}" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{p.icon}}"></path></svg></div>
+<div style="padding: 8px 10px 10px"><div style="font-weight: 600; font-size: 13px">{{p.name}}</div><div class="num" style="font-size: 12px; color: #C9CED6">RWF [price] · {{p.unit}}</div></div>
+</button>
+</sc-for>
+</div>
+<button class="t" onClick="{{msgTap}}" style="width: 100%; height: 48px; margin-top: 14px; border-radius: 14px; border: 1px solid #2E333B; background: #1C2027; color: #F3F4F6; font-weight: 600">Message the store</button>
+</sc-if>
+
+<!-- product detail -->
+<sc-if value="{{sProduct}}" hint-placeholder-val="{{ false }}">
+<div style="height: 190px; border-radius: 22px; background: {{dprod.tint}}; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="110" height="110" viewBox="0 0 64 64" fill="none" stroke="{{dprod.stroke}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{dprod.icon}}"></path></svg></div>
+<div style="color: #9BA3AE; font-size: 12px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; margin-top: 14px">{{dprod.cat}}</div>
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.6px">{{dprod.name}}</div>
+<div style="color: #9BA3AE">{{dprod.unit}} · {{dprod.storesLabel}}</div>
+<div style="color: #9BA3AE; font-size: 13px; margin: 16px 0 8px">Choose a store</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{dprod.opts}}" as="o" hint-placeholder-count="2">
+<button class="t" onClick="{{o.pick}}" style="display: flex; align-items: center; gap: 12px; text-align: left; border-radius: 16px; padding: 12px 14px; color: #F3F4F6; background: {{o.bg}}; border: 1.5px solid {{o.bd}}">
+<div style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid {{o.ring}}; display: flex; align-items: center; justify-content: center; flex: none"><div style="width: 9px; height: 9px; border-radius: 50%; background: {{o.dot}}"></div></div>
+<div style="flex: 1"><div style="font-weight: 600">{{o.name}}</div><div style="color: #9BA3AE; font-size: 12px">{{o.area}} · {{o.delivery}}</div></div>
+<div class="num" style="font-family: 'Inter Tight', sans-serif; font-weight: 700">RWF [price]</div>
+</button>
+</sc-for>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 16px">
+<span style="color: #9BA3AE">Quantity</span>
+<div style="display: flex; align-items: center; gap: 4px; border-radius: 14px; background: #1C2027; padding: 4px">
+<button class="t" onClick="{{dprod.minus}}" aria-label="Less" style="width: 40px; height: 40px; border-radius: 10px; border: 0; background: #14171C; color: #F3F4F6; font-size: 20px">−</button>
+<span class="num" style="min-width: 44px; text-align: center; font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 18px">{{dprod.qty}}</span>
+<button class="t" onClick="{{dprod.plus}}" aria-label="More" style="width: 40px; height: 40px; border-radius: 10px; border: 0; background: #14171C; color: #F3F4F6; font-size: 20px">+</button>
+</div>
+</div>
+<button class="t" onClick="{{dprod.add}}" style="width: 100%; height: 54px; margin-top: 16px; border-radius: 14px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600; font-size: 15px">Add {{dprod.qty}} {{dprod.unitShort}} to order</button>
+<div style="color: #9BA3AE; font-size: 12px; text-align: center; margin-top: 8px">One store per order · pay on delivery, cash or MoMo</div>
+</sc-if>
+
+<!-- person profile -->
+<sc-if value="{{sPerson}}" hint-placeholder-val="{{ false }}">
+<div style="position: relative; height: 250px; border-radius: 22px; overflow: hidden; background: {{rp.photoBg}}">
+<svg aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="xMidYMax meet" style="position: absolute; inset: 0; width: 100%; height: 100%"><circle cx="50" cy="40" r="19" fill="{{rp.photoFg}}"></circle><path d="M12 100c4-24 20-36 38-36s34 12 38 36z" fill="{{rp.photoFg}}"></path></svg>
+<span style="position: absolute; top: 12px; left: 14px; font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: rgba(243,244,246,.55)">{{rp.photoLabel}}</span>
+</div>
+<div style="display: flex; align-items: center; gap: 14px; margin-top: 14px">
+<div style="flex: 1; min-width: 0">
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.5px">{{rp.role}}</div>
+<div style="color: #9BA3AE; font-size: 13px">{{rp.sub}} · {{rp.langs}}</div>
+<div class="num" style="display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; border-radius: 999px; padding: 4px 10px; background: {{rp.rBg}}; color: {{rp.rFg}}; font-size: 12px; font-weight: 600"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"></path></svg>{{rp.ratingLong}}</div>
+</div>
+</div>
+<div style="color: #C9CED6; margin-top: 12px">{{rp.bio}}</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 14px">
+<sc-for list="{{rp.stats}}" as="s" hint-placeholder-count="3"><div style="border-radius: 14px; background: #1C2027; padding: 10px 12px"><div class="num" style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 18px">{{s.n}}</div><div style="color: #9BA3AE; font-size: 12px">{{s.label}}</div></div></sc-for>
+</div>
+<sc-if value="{{rp.isCo}}" hint-placeholder-val="{{ false }}">
+<div style="color: #9BA3AE; font-size: 13px; margin: 18px 0 8px">Team on Inkingi</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{rp.team}}" as="m" hint-placeholder-count="3"><button class="t" onClick="{{teamTap}}" style="display: flex; align-items: center; gap: 10px; border-radius: 14px; border: 0; background: #1C2027; padding: 10px 12px; text-align: left; color: #F3F4F6"><span style="width: 34px; height: 34px; border-radius: 50%; background: #262B33; font-weight: 600; display: flex; align-items: center; justify-content: center">{{m.initial}}</span><span style="flex: 1"><span style="display: block; font-weight: 600">{{m.role}}</span><span style="color: #9BA3AE; font-size: 12px">{{m.note}} · ID checked</span></span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7380" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg></button></sc-for>
+</div>
+</sc-if>
+<div style="color: #9BA3AE; font-size: 13px; margin: 18px 0 8px">Badges</div>
+<div style="border-radius: 16px; background: #1C2027; overflow: hidden">
+<sc-for list="{{rp.badges}}" as="b" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid #23272E">
+<span style="width: 36px; height: 36px; border-radius: 50%; background: {{b.bg}}; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{b.color}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="{{b.icon}}"></path></svg></span>
+<div style="flex: 1; min-width: 0"><div style="font-weight: 600">{{b.name}}</div><div style="color: #9BA3AE; font-size: 12px">{{b.meaning}}</div><div style="color: #6B7380; font-size: 11px; margin-top: 2px">{{b.when}}</div></div>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{rp.hasWork}}" hint-placeholder-val="{{ true }}">
+<div style="color: #9BA3AE; font-size: 13px; margin: 18px 0 8px">Work on Inkingi</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{rp.work}}" as="w" hint-placeholder-count="3"><div style="border-radius: 14px; overflow: hidden; background: #1C2027"><div style="height: 70px; background: {{w.tint}}; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 64 64" fill="none" stroke="{{w.stroke}}" stroke-width="3" stroke-linejoin="round"><path d="{{w.icon}}"></path></svg></div><div style="padding: 6px 8px; font-size: 12px; font-weight: 600">{{w.title}}</div></div></sc-for>
+</div>
+</sc-if>
+<div style="display: flex; gap: 8px; margin-top: 18px">
+<button class="t" onClick="{{msgTap}}" style="flex: 1.4; height: 50px; border-radius: 14px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600">Message</button>
+<button class="t" onClick="{{callTap}}" style="flex: 1; height: 50px; border-radius: 14px; border: 1px solid #2E333B; background: #1C2027; color: #F3F4F6; font-weight: 600">Call</button>
+<button class="t" onClick="{{waTap}}" style="flex: 1; height: 50px; border-radius: 14px; border: 1px solid #2E333B; background: #1C2027; color: #F3F4F6; font-weight: 600">WhatsApp</button>
+</div>
+</sc-if>
+
+<!-- people filters -->
+<sc-if value="{{sPF}}" hint-placeholder-val="{{ false }}">
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.6px">Find people</div>
+<div style="color: #9BA3AE; font-size: 13px; margin: 16px 0 8px">Who are you looking for?</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{segs}}" as="g" hint-placeholder-count="4"><button class="t" onClick="{{g.pick}}" style="height: 48px; border-radius: 14px; border: 1px solid #2E333B; font-weight: 600; font-size: 14px; background: {{g.bg}}; color: {{g.fg}}">{{g.label}}</button></sc-for>
+</div>
+<div style="color: #9BA3AE; font-size: 13px; margin: 18px 0 8px">Trade</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{ptrades}}" as="c" hint-placeholder-count="5"><button class="t" onClick="{{c.pick}}" style="height: 34px; border-radius: 999px; padding: 0 12px; font-size: 13px; font-weight: 500; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button></sc-for></div>
+<div style="color: #9BA3AE; font-size: 13px; margin: 18px 0 8px">Area</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{pareas}}" as="c" hint-placeholder-count="4"><button class="t" onClick="{{c.pick}}" style="height: 34px; border-radius: 999px; padding: 0 12px; font-size: 13px; font-weight: 500; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button></sc-for></div>
+<sc-if value="{{showAvailToggle}}" hint-placeholder-val="{{ false }}">
+<button class="t" onClick="{{toggleAvailOnly}}" style="width: 100%; display: flex; align-items: center; gap: 12px; margin-top: 18px; border-radius: 14px; border: 1px solid #2E333B; background: #1C2027; padding: 12px 14px; text-align: left; color: #F3F4F6"><span style="flex: 1"><span style="display: block; font-weight: 600">Available now</span><span style="color: #9BA3AE; font-size: 12px">Only people who can start soon</span></span><span style="width: 46px; height: 28px; border-radius: 14px; background: {{availSwBg}}; display: flex; align-items: center; padding: 3px; box-sizing: border-box; justify-content: {{availSwJust}}"><span style="width: 22px; height: 22px; border-radius: 50%; background: #F3F4F6"></span></span></button>
+</sc-if>
+<div style="display: flex; gap: 8px; margin-top: 22px">
+<button class="t" onClick="{{clearPF}}" style="flex: 1; height: 52px; border-radius: 14px; border: 1px solid #2E333B; background: #1C2027; color: #F3F4F6; font-weight: 600">Clear</button>
+<button class="t" onClick="{{closeSheet}}" style="flex: 2; height: 52px; border-radius: 14px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600">Show {{peopleCount}}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{sGate}}" hint-placeholder-val="{{ false }}">
+<div style="width: 52px; height: 52px; border-radius: 16px; background: #2A2312; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F5B517" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></div>
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 28px; letter-spacing: -0.6px; margin-top: 14px">Create a free account to {{gateReason}}</div>
+<div style="color: #9BA3AE; margin: 6px 0 20px">Reading stays open. An account lets you save, react, message, post and order.</div>
+<button class="t" onClick="{{openJoin}}" style="width: 100%; height: 52px; border-radius: 14px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600; font-size: 15px">Get started</button>
+<button class="t" onClick="{{closeSheet}}" style="width: 100%; height: 44px; margin-top: 6px; border: 0; background: none; color: #9BA3AE; font-weight: 500">Not now</button>
+</sc-if>
+
+<sc-if value="{{sPost}}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{dp.hasImage}}" hint-placeholder-val="{{ true }}">
+<div class="ns" style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 14px">
+<div style="flex: none; width: 340px; height: 210px; border-radius: 18px; background: #1C2027; display: flex; align-items: flex-end; padding: 12px; box-sizing: border-box; color: #9BA3AE; font-size: 12px">Foundation · photo</div>
+<div style="flex: none; width: 340px; height: 210px; border-radius: 18px; background: #1C2027; display: flex; align-items: flex-end; padding: 12px; box-sizing: border-box; color: #9BA3AE; font-size: 12px">Walls · photo</div>
+<div style="flex: none; width: 340px; height: 210px; border-radius: 18px; background: #1C2027; display: flex; align-items: flex-end; padding: 12px; box-sizing: border-box; color: #9BA3AE; font-size: 12px">Finished · photo</div>
+</div>
+</sc-if>
+<div style="font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase"><span style="color: {{dp.labelColor}}">{{dp.label}}</span><span style="color: #6B7380"> · {{dp.step}}</span></div>
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 28px; letter-spacing: -0.6px; margin-top: 4px">{{dp.title}}</div>
+<div style="color: #9BA3AE; margin-top: 4px">{{dp.meta}}</div>
+<sc-if value="{{dp.hasImage}}" hint-placeholder-val="{{ true }}">
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 14px">
+<div style="border-radius: 14px; padding: 12px; background: #1C2027"><div style="color: #9BA3AE; font-size: 12px">Cost</div><div class="num" style="font-weight: 600">[range]</div></div>
+<div style="border-radius: 14px; padding: 12px; background: #1C2027"><div style="color: #9BA3AE; font-size: 12px">Time</div><div class="num" style="font-weight: 600">[months]</div></div>
+<div style="border-radius: 14px; padding: 12px; background: #1C2027"><div style="color: #9BA3AE; font-size: 12px">Area</div><div class="num" style="font-weight: 600">[m²]</div></div>
+</div>
+</sc-if>
+<div style="display: flex; align-items: center; gap: 10px; margin-top: 16px; border-radius: 16px; padding: 12px; background: #1C2027">
+<div style="width: 42px; height: 42px; border-radius: 50%; background: #23272E; font-weight: 600; display: flex; align-items: center; justify-content: center">{{dp.initial}}</div>
+<div style="flex: 1"><div style="font-weight: 600">{{dp.by}}</div><div style="color: #43D19E; font-size: 13px">{{dp.trust}}</div></div>
+<button class="t" onClick="{{followTap}}" style="height: 36px; border-radius: 999px; border: 1px solid #2E333B; background: none; color: #F3F4F6; padding: 0 14px; font-weight: 600">Follow</button>
+</div>
+<div style="display: flex; gap: 8px; margin-top: 14px">
+<button class="t num" onClick="{{dp.helpful}}" style="flex: 1; height: 48px; border-radius: 14px; font-weight: 600; background: {{dp.hBg}}; color: {{dp.hFg}}; border: 1px solid {{dp.hBd}}">Helpful · {{dp.count}}</button>
+<button class="t" onClick="{{dp.save}}" style="flex: 1; height: 48px; border-radius: 14px; border: 1px solid #2E333B; background: #1C2027; color: #F3F4F6; font-weight: 600">{{dp.saveLabel}}</button>
+</div>
+<button class="t" onClick="{{dp.cta}}" style="width: 100%; height: 52px; margin-top: 8px; border-radius: 14px; border: 0; background: #F5B517; color: #0A0C0F; font-weight: 600; font-size: 15px">{{dp.ctaLabel}}</button>
+</sc-if>
+
+<sc-if value="{{sCreate}}" hint-placeholder-val="{{ false }}">
+<div style="font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 28px; letter-spacing: -0.6px; margin-bottom: 16px">What do you want to do?</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px"><sc-for list="{{postTypes}}" as="pt" hint-placeholder-count="6"><button class="t" onClick="{{pt.pick}}" style="text-align: left; min-height: 84px; border-radius: 16px; padding: 14px; background: #1C2027; border: 1px solid #23272E; color: #F3F4F6"><div style="font-weight: 600">{{pt.name}}</div><div style="color: #9BA3AE; font-size: 13px">{{pt.who}}</div></button></sc-for></div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{ false }}">
+<div class="fu" role="status" style="position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; background: #F3F4F6; color: #0A0C0F; border-radius: 16px; padding: 14px 18px; font-weight: 600; white-space: nowrap; box-shadow: 0 10px 30px rgba(0,0,0,.5)"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="#43D19E"><circle cx="12" cy="12" r="10"></circle><path d="M7.5 12.3l3 3L16.5 9.5" fill="none" stroke="#0A0C0F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{toast}}</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { aud: 'build', startPick: null, priceView: 'Stores', storeId: null, cat: 'All', prodId: null, selStore: null, qty: 1, cart: null, sortBy: 'Nearest', search: false, q: '', sTab: 'All', ptrade: 'All', availOnly: false, parea: 'Anywhere', segsSel: ['Professionals'], ptradesSel: [], pareasSel: [], pfOpen: false, coType: 'Construction company', inbox: false, ibTab: 'Messages', chatId: null, chatExtra: {}, readChats: {}, chatTray: false, draft: '', personKey: null, workTrade: 'Mason', level: 'Skilled', vehicle: 'Pickup', avail: false, tab: 'home', signedIn: false, role: 'build', where: 'abroad', step: 2, trade: 'Engineer', groups: ['Cement and aggregates', 'Steel'], interests: ['Houses', 'Prices', 'Questions'], homeChip: 'For you', exChip: 'All', seg: 'Professionals', sheet: 'none', gateReason: '', postId: null, toast: '', fresh: false, counts: { p1: 24, p2: 9, p3: 17, p4: 6, p5: 11, p6: 8, p7: 5 }, voted: {}, saved: {} };
+  }
+  go(tab, step) { var s = { tab: tab, sheet: 'none' }; if (typeof step === 'number') s.step = step; this.setState(s); }
+  say(msg) { var self = this; this.setState({ toast: msg }); clearTimeout(this._t); this._t = setTimeout(function () { self.setState({ toast: '' }); }, 2000); }
+  gate(reason) { this.setState({ sheet: 'gate', gateReason: reason }); }
+  act(reason, msg) { if (this.state.signedIn) { this.setState({ sheet: 'none' }); this.say(msg); } else this.gate(reason); }
+  chip(on) { return { bg: on ? '#F3F4F6' : '#14171C', fg: on ? '#0A0C0F' : '#C9CED6', bd: on ? '#F3F4F6' : '#2E333B' }; }
+  renderVals() {
+    var self = this, st = this.state;
+    var stepData = [
+      ['Land', 'Find and check a plot before you pay.', ['Check the land title', 'Access, water and power', 'Soil and slope']],
+      ['Design', 'Turn your idea into drawings and a budget.', ['Choosing an architect', 'Plans you will need', 'Budget by house size']],
+      ['Permit', 'Get permission to build, step by step.', ['Documents you need', 'Process and time', 'Fees (being checked)']],
+      ['Team', 'Hire people you can trust, even from abroad.', ['Hiring a contractor', 'Who supervises the site', 'Workers and abayede']],
+      ['Materials', 'Know what to buy, when, and at what price.', ['What to buy at each stage', 'Prices this week', 'Delivery to your site']],
+      ['Building', 'Foundation to roof, with photos at each stage.', ['Foundation', 'Walls and columns', 'Roofing']],
+      ['Finishing', 'Plaster, tiles, wiring, paint, moving in.', ['Plaster and tiles', 'Plumbing and wiring', 'Doors, windows, paint']]
+    ];
+    var steps = stepData.map(function (d, i) {
+      var sel = i === st.step, done = i < st.step, c = self.chip(sel);
+      return { name: d[0], num: i + 1, line: d[1], hD: 50 + i * 18, hG: 70 + i * 24, delay: (i * 0.06).toFixed(2),
+        pillar: i === 6 ? '#F5B517' : '#262B33', pillarText: i === 6 ? '#0A0C0F' : '#9BA3AE',
+        pillarSel: sel ? '#F5B517' : (done ? '#2F6B57' : '#262B33'), pillarSelText: sel ? '#0A0C0F' : '#C9CED6',
+        seg: sel ? '#F5B517' : (done ? '#43D19E' : '#262B33'),
+        chipBg: c.bg, chipFg: c.fg, chipBd: c.bd,
+        pick: function () { self.setState({ step: i }); }, open: function () { self.go('guide', i); } };
+    });
+    var cd = stepData[st.step];
+    var cur = { num: st.step + 1, name: cd[0], line: cd[1], topics: cd[2], next: cd[2][0] };
+    var prices = [
+      { name: 'Cement', unit: '50 kg bag', price: 'RWF [price]', updated: 'today', store: 'Store in Jabana', delivery: 'Delivery in Jabana' },
+      { name: 'Steel bar 12 mm', unit: 'per bar', price: 'RWF [price]', updated: '2 days ago', store: 'Store in Jabana', delivery: 'Pickup only' },
+      { name: 'Concrete blocks', unit: 'per block', price: 'RWF [price]', updated: 'this week', store: 'Block maker, Gasabo', delivery: 'Fixed fee' },
+      { name: 'Sand', unit: 'per trip', price: 'RWF [price]', updated: 'today', store: 'Supplier in Jabana', delivery: 'Agreed in chat' }
+    ];
+    var raw = [
+      { id: 'p1', kind: 'Projects', label: 'Finished project', labelColor: '#43D19E', step: 'Building', title: '3-bedroom house in Jabana', meta: 'Cost by stage · team · materials list', by: 'Civil engineer', verified: true, hasImage: true, tags: ['Houses', 'Projects nearby'] },
+      { id: 'p2', kind: 'Questions', label: 'Question', labelColor: '#F5B517', step: 'Permit', title: 'Which documents do I need for a building permit?', meta: '2 answers · best answer chosen', by: 'Owner abroad', verified: false, hasImage: false, tags: ['Questions', 'Questions to answer'] },
+      { id: 'p3', kind: 'Tips', label: 'Tip', labelColor: '#8FB4FF', step: 'Building', title: 'Check the foundation level before the walls go up', meta: 'Short tip with photos', by: 'Contractor', verified: true, hasImage: false, tags: ['Tips'] },
+      { id: 'p4', kind: 'Prices', label: 'Material and price', labelColor: '#C9CED6', step: 'Materials', title: 'Cement, 50 kg bag · RWF [price]', meta: 'Store in Jabana · delivery in Jabana', by: 'Supplier', verified: true, hasImage: false, tags: ['Prices', 'Near me', 'Price views'] },
+      { id: 'p5', kind: 'Designs', label: 'Design · idea, not built', labelColor: '#E7A6FF', step: 'Design', title: 'Compact 2-bedroom for a sloped plot', meta: 'Drawings by an architecture student', by: 'Student', verified: false, hasImage: true, tags: ['Designs'] },
+      { id: 'p6', kind: 'Projects', label: 'Work in progress', labelColor: '#43D19E', step: 'Building', title: 'Walls going up in Jabana', meta: 'Stage: walls and columns', by: 'Contractor', verified: true, hasImage: true, tags: ['Houses', 'Projects nearby', 'Near me', 'Jobs near me'] },
+      { id: 'p7', kind: 'Questions', label: 'Question', labelColor: '#F5B517', step: 'Materials', title: 'How do I check cement quality at the store?', meta: '1 answer', by: 'Owner in Rwanda', verified: false, hasImage: false, tags: ['Questions', 'Questions to answer', 'Questions on materials'] }
+    ];
+    var dress = function (p) {
+      var on = !!st.voted[p.id], sv = !!st.saved[p.id];
+      return Object.assign({}, p, { initial: p.by.charAt(0), count: st.counts[p.id] + (on ? 1 : 0),
+        trust: p.verified ? 'Verified · checked by Inkingi' : 'Not yet verified',
+        hBg: on ? '#F5B517' : '#14171C', hFg: on ? '#0A0C0F' : '#C9CED6', hBd: on ? '#F5B517' : '#2E333B',
+        sFill: sv ? '#F5B517' : 'none', sStroke: sv ? '#F5B517' : '#C9CED6', saveLabel: sv ? 'Saved' : 'Save',
+        ctaLabel: p.kind === 'Projects' ? 'I want something like this' : (p.kind === 'Prices' ? 'Order from this store' : 'Message ' + p.by.toLowerCase()),
+        open: function () { self.setState({ sheet: 'post', postId: p.id }); },
+        helpful: function () { if (!st.signedIn) return self.gate('mark this helpful'); var v = Object.assign({}, st.voted); v[p.id] = !v[p.id]; self.setState({ voted: v }); },
+        save: function () { if (!st.signedIn) return self.gate('save this'); var v = Object.assign({}, st.saved); v[p.id] = !v[p.id]; self.setState({ saved: v }); self.say(v[p.id] ? 'Saved' : 'Removed from saved'); },
+        cta: function () { self.act(p.kind === 'Prices' ? 'order' : 'message the poster', p.kind === 'Projects' ? 'Quote request sent' : (p.kind === 'Prices' ? 'Order started' : 'Chat opened · About: ' + p.title)); } });
+    };
+    var all = raw.map(dress);
+    var interestSets = { build: ['Houses', 'Prices', 'Tips', 'Questions', 'Designs', 'Near me'], pro: ['Questions to answer', 'Projects nearby', 'Tips', 'Designs'], sell: ['Price views', 'Questions on materials', 'Projects nearby'], work: ['Jobs near me', 'Tips', 'Projects nearby'], company: ['Projects nearby', 'Questions to answer', 'Tips'], drive: ['Projects nearby', 'Prices'], look: ['Houses', 'Tips', 'Designs', 'Prices'] };
+    var myInterests = st.interests.filter(function (x) { return interestSets[st.role].indexOf(x) >= 0; });
+    var homeChips = ['For you'].concat(myInterests).map(function (lbl) { var c = self.chip(st.homeChip === lbl); return { label: lbl, bg: c.bg, fg: c.fg, bd: c.bd, pick: function () { self.setState({ homeChip: lbl }); } }; });
+    var homePosts = all.filter(function (p) {
+      if (st.homeChip === 'For you') return myInterests.length === 0 || p.tags.some(function (t) { return myInterests.indexOf(t) >= 0; });
+      return p.tags.indexOf(st.homeChip) >= 0;
+    });
+    if (homePosts.length === 0) homePosts = all;
+    var exploreChips = ['All', 'Projects', 'Tips', 'Questions', 'Prices', 'Designs'].map(function (lbl) { var c = self.chip(st.exChip === lbl); return { label: lbl, bg: c.bg, fg: c.fg, bd: c.bd, pick: function () { self.setState({ exChip: lbl }); } }; });
+    var explorePosts = all.filter(function (p) { return st.exChip === 'All' || p.kind === st.exChip; });
+    var houses = [all[0], all[5], all[4]].map(function (p, i) { return { title: p.title, place: i === 2 ? 'Idea, not built' : 'Jabana, Gasabo', cost: i === 2 ? 'Design idea' : 'RWF [cost range]', open: p.open }; });
+    var dp = all.filter(function (p) { return p.id === st.postId; })[0] || all[0];
+    var roles = [['build', "I'm building or planning", 'In Rwanda or abroad'], ['pro', "I'm a professional", 'Engineer, architect, contractor, surveyor, student'], ['company', 'I run a company', 'Construction firm, design studio, equipment hire'], ['work', "I'm a technician or worker", 'Mason, plumber, electrician, carpenter, umuyede'], ['sell', 'I sell materials', 'Store or supplier'], ['drive', 'I drive', 'Moto, pickup or truck'], ['look', 'Just looking', 'Browse and learn']].map(function (r) {
+      var on = st.role === r[0];
+      return { title: r[1], sub: r[2], bg: on ? '#1C2027' : '#14171C', bd: on ? '#F5B517' : '#2E333B', ring: on ? '#F5B517' : '#3A404A', dotFill: on ? '#F5B517' : 'transparent',
+        pick: function () { self.setState({ role: r[0], interests: interestSets[r[0]].slice(0, 3), homeChip: 'For you' }); } };
+    });
+    var whereOpts = [['abroad', 'Abroad'], ['rwanda', 'In Rwanda']].map(function (w) { var on = st.where === w[0]; return { label: w[1], bg: on ? '#F3F4F6' : 'transparent', fg: on ? '#0A0C0F' : '#C9CED6', pick: function () { self.setState({ where: w[0] }); } }; });
+    var trades = ['Engineer', 'Architect', 'Contractor', 'Surveyor', 'Student'].map(function (t) { var c = self.chip(st.trade === t); return { label: t, bg: c.bg, fg: c.fg, bd: c.bd, pick: function () { self.setState({ trade: t }); } }; });
+    var workTrades = ['Mason', 'Plumber', 'Electrician', 'Carpenter', 'Welder', 'Tiler', 'Painter', 'Umuyede'].map(function (t) { var c = self.chip(st.workTrade === t); return { label: t, bg: c.bg, fg: c.fg, bd: c.bd, pick: function () { self.setState({ workTrade: t }); } }; });
+    var seg3 = function (list, key) { return list.map(function (x) { var on = st[key] === x; return { label: x, bg: on ? '#F3F4F6' : 'transparent', fg: on ? '#0A0C0F' : '#C9CED6', pick: function () { var o = {}; o[key] = x; self.setState(o); } }; }); };
+    var levels = seg3(['Helper', 'Skilled', 'Team leader'], 'level');
+    var vehicles = seg3(['Moto', 'Pickup', 'Truck'], 'vehicle');
+    var icons = { build: 'M3 11l9-7 9 7v9H3zM9 20v-6h6v6', pro: 'M4 20h16V4zM12 20v-3M16 20v-3M16 12h3', work: 'M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z', sell: 'M4 9l1.5-5h13L20 9M4 9h16v11H4zM9 20v-6h6v6', drive: 'M3 6h11v10H3zM14 10h4l3 3v3h-7M6.5 16a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 1 0 0-3.6M17.5 16a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 1 0 0-3.6', company: 'M4 21V8l8-5 8 5v13M9 21v-5h6v5M8 11h2M14 11h2' };
+    var joinAs = function (r) { return function () { self.setState({ role: r, interests: interestSets[r].slice(0, 3), homeChip: 'For you', sheet: 'join' }); }; };
+    var audData = {
+      build: { label: 'Building a property', kicker: 'For owners, at home or abroad', title: 'Own a property in Rwanda, with guidance all the way.', points: ['Guidance for every stage, from land to moving in', 'Verified people you can trust from far away', 'Real store prices, order to your site'], cta1: "I'm thinking of building", go1: function () { self.go('guide', 0); }, cta2: "I've already started", go2: function () { self.go('people'); }, note: 'Free to read. No account needed.' },
+      pro: { label: "I'm a professional", kicker: 'Engineers, architects, contractors', title: 'Show your work. Get clients at home and abroad.', points: ['A portfolio of real projects with costs', 'Answer questions and become the trusted expert', 'A verified badge that shows who checked and when'], cta1: 'Join as a professional', go1: joinAs('pro'), cta2: 'See what pros post', go2: function () { self.go('explore'); }, note: 'Free. Add your documents later from your profile.' },
+      work: { label: 'Technician or worker', kicker: 'Masons, plumbers, electricians, abayede', title: 'Get found for your skill.', points: ['A simple trade card: your skill, level and area', 'Contractors you work with vouch for you', 'Owners and contractors call you directly'], cta1: 'Join with your phone number', go1: joinAs('work'), cta2: 'See workers near Jabana', go2: function () { self.setState({ segsSel: ['Workers'] }); self.go('people'); }, note: 'ID check once. Trust grows as people vouch for you.' },
+      company: { label: 'I run a company', kicker: 'Construction firms, design studios, equipment hire', title: 'Put your company where builders look.', points: ['A company page with your projects and team', 'Registered business badge after a document check', 'Invite your engineers, site leads and crew'], cta1: 'Create company page', go1: joinAs('company'), cta2: 'See companies', go2: function () { self.setState({ segsSel: ['Companies'] }); self.go('people'); }, note: 'You join as the owner first. Your ID and business registration are checked.' },
+      sell: { label: 'I sell materials', kicker: 'Stores and suppliers', title: 'Every builder near you can see your store.', points: ['Your products and prices, with "last updated"', 'Orders straight to your store', 'Free during the launch period'], cta1: 'Add your store', go1: joinAs('sell'), cta2: 'See prices near you', go2: function () { self.go('prices'); }, note: 'Drop your exact pin so people find you.' },
+      drive: { label: 'I drive', kicker: 'Moto, pickup or truck', title: 'Carry materials. Get regular work.', points: ['Stores and owners find you by area', 'Confirm pickup and delivery in the app', 'Paid for every delivery'], cta1: 'Join as a driver', go1: joinAs('drive'), cta2: 'See drivers near Jabana', go2: function () { self.setState({ segsSel: ['Drivers'] }); self.go('people'); }, note: 'Phone number and an ID check to start.' }
+    };
+    var auds = ['build', 'pro', 'company', 'work', 'sell', 'drive'].map(function (k) { var on = st.aud === k; var subs = { build: 'Own a property, at home or abroad', pro: 'Engineers, architects, contractors', company: 'Construction firms, design studios, equipment hire', work: 'Masons, plumbers, electricians, abayede', sell: 'Stores and suppliers', drive: 'Moto, pickup or truck' }; return { label: audData[k].label, sub: subs[k], icon: icons[k], bg: on ? '#F3F4F6' : '#14171C', fg: on ? '#0A0C0F' : '#F3F4F6', bd: on ? '#F3F4F6' : '#23272E', pick: function () { self.setState({ startPick: k }); } }; });
+    var aud = audData[st.startPick || 'build'];
+    var groups = ['Cement and aggregates', 'Steel', 'Blocks', 'Timber', 'Roofing', 'Plumbing', 'Electrical', 'Tiles', 'Paint'].map(function (g) { var on = st.groups.indexOf(g) >= 0, c = self.chip(on); return { label: g, bg: c.bg, fg: c.fg, bd: c.bd, pick: function () { var a = st.groups.slice(); if (on) a.splice(a.indexOf(g), 1); else a.push(g); self.setState({ groups: a }); } }; });
+    var interestChips = interestSets[st.role].map(function (x) { var on = st.interests.indexOf(x) >= 0, c = self.chip(on); return { label: x, mark: on ? '✓ ' : '', bg: c.bg, fg: c.fg, bd: c.bd, pick: function () { var a = st.interests.slice(); if (on) a.splice(a.indexOf(x), 1); else a.push(x); self.setState({ interests: a, homeChip: 'For you' }); } }; });
+    var peopleData = {
+      Professionals: [['Architect', 'Kicukiro · houses and villas', 'Verified · ID and professional body', true], ['Civil engineer', 'Gasabo · structures', 'Verified · ID and professional body', true], ['Contractor', 'Jabana · residential', 'Not yet verified', false]],
+      Workers: [['Mason, team leader', 'Service area: Jabana', 'Vouched for by a contractor', true], ['Plumber, skilled', 'Service area: Gasabo', 'Vouched for by an engineer', true], ['Umuyede (helper)', 'Service area: Jabana', 'Not yet vouched for', false]],
+      Drivers: [['Pickup driver', 'Area: Jabana', 'Pickup', true], ['Truck driver', 'Area: Gasabo', 'Truck', true], ['Moto driver', 'Area: Jabana', 'Moto', true]]
+    };
+    var richPeople = {
+      Professionals: [
+        { rating: '[rating]', role: 'Architect', area: 'Kicukiro', level: '', bio: 'Family houses and small apartments. Designs for owners abroad, with 3D views before you build.', badges: ['id', 'pro', 'biz'], stats: [['[n]', 'Projects'], ['[n]', 'Answers'], ['[y]', 'Years']], work: [['Villa', 'amber'], ['Duplex design', 'blue'], ['Apartments', 'mint']], langs: 'Kinyarwanda · English · French', avail: null },
+        { rating: '[rating]', role: 'Civil engineer', area: 'Gasabo', level: '', bio: 'Structures and site supervision. Sends site photos at every stage to owners abroad.', badges: ['id', 'pro'], stats: [['[n]', 'Projects'], ['[n]', 'Answers'], ['[y]', 'Years']], work: [['3-bedroom house', 'mint'], ['Foundation', 'grey'], ['Slab', 'blue']], langs: 'Kinyarwanda · English', avail: null },
+        { rating: 'New', role: 'Contractor', area: 'Jabana', level: '', bio: 'Residential builds from foundation to finishing, with his own crew of masons and abayede.', badges: ['id'], stats: [['[n]', 'Projects'], ['[n]', 'Crew'], ['[y]', 'Years']], work: [['Walls going up', 'amber'], ['Rental units', 'grey'], ['Finishing', 'purple']], langs: 'Kinyarwanda · English', avail: null },
+        { rating: '[rating]', role: 'Land surveyor', area: 'Gasabo', level: '', bio: 'Plot surveys and boundary checks before you buy land.', badges: ['id', 'pro'], stats: [['[n]', 'Surveys'], ['[n]', 'Answers'], ['[y]', 'Years']], work: [['Plot survey', 'mint'], ['Boundary', 'amber'], ['Site plan', 'blue']], langs: 'Kinyarwanda · French', avail: null }
+      ],
+      Companies: [
+        { rating: '[rating]', role: 'Construction company', area: 'Gasabo', level: 'Houses and apartments', bio: 'Builds family houses and small apartment blocks, from foundation to keys. Weekly photo reports for owners abroad.', badges: ['biz', 'id'], stats: [['[n]', 'Projects'], ['[n]', 'Team'], ['[y]', 'Years']], work: [['Apartments', 'blue'], ['Villa', 'amber'], ['Rental units', 'mint']], langs: 'Kinyarwanda · English · French', avail: null, team: [['Civil engineer', 'Site lead'], ['Architect', 'Design'], ['Mason', 'Team leader']] },
+        { rating: '[rating]', role: 'Design studio', area: 'Kicukiro', level: 'Architecture and interiors', bio: 'House design, permit drawings and interiors. Online meetings for clients abroad.', badges: ['pro', 'biz', 'id'], stats: [['[n]', 'Designs'], ['[n]', 'Team'], ['[y]', 'Years']], work: [['Modern villa', 'purple'], ['Duplex', 'blue'], ['Interior', 'amber']], langs: 'Kinyarwanda · English', avail: null, team: [['Architect', 'Lead'], ['Architect', 'Interiors'], ['Student', 'Drawings']] },
+        { rating: 'New', role: 'Equipment hire', area: 'Jabana', level: 'Mixers, scaffolding, compactors', bio: 'Daily and weekly hire of site equipment, delivered to your site.', badges: ['biz', 'id'], stats: [['[n]', 'Machines'], ['[n]', 'Hires'], ['[y]', 'Years']], work: [['Mixer', 'grey'], ['Scaffolding', 'amber'], ['Compactor', 'mint']], langs: 'Kinyarwanda · English', avail: null, team: [['Driver', 'Delivery'], ['Technician', 'Repairs']] },
+        { rating: '[rating]', role: 'Roofing contractor', area: 'Gasabo', level: 'Roofs and gutters', bio: 'Roof structures, sheets and gutters for houses and small buildings.', badges: ['biz', 'id'], stats: [['[n]', 'Roofs'], ['[n]', 'Team'], ['[y]', 'Years']], work: [['Roof', 'mint'], ['Gutters', 'grey'], ['Truss', 'amber']], langs: 'Kinyarwanda', avail: null, team: [['Carpenter', 'Lead'], ['Welder', 'Steel']] }
+      ],
+      Workers: [
+        { rating: '[rating]', role: 'Mason', area: 'Jabana', level: 'Team leader', bio: 'Blockwork and plastering. Leads a crew of masons and abayede.', badges: ['id', 'vouch'], stats: [['[n]', 'Jobs'], ['[n]', 'Vouches'], ['[y]', 'Years']], work: [['Blockwork', 'amber'], ['Plaster', 'grey'], ['Columns', 'blue']], langs: 'Kinyarwanda', avail: true },
+        { rating: '[rating]', role: 'Plumber', area: 'Gasabo', level: 'Skilled', bio: 'Water supply, drainage and fittings for houses.', badges: ['id', 'vouch'], stats: [['[n]', 'Jobs'], ['[n]', 'Vouches'], ['[y]', 'Years']], work: [['Bathroom', 'blue'], ['Water tank', 'mint'], ['Drainage', 'grey']], langs: 'Kinyarwanda · Swahili', avail: false },
+        { rating: 'New', role: 'Electrician', area: 'Jabana', level: 'Skilled', bio: 'House wiring, sockets and lighting, new builds and repairs.', badges: ['id'], stats: [['[n]', 'Jobs'], ['[n]', 'Vouches'], ['[y]', 'Years']], work: [['Wiring', 'purple'], ['Lighting', 'amber'], ['Panel', 'grey']], langs: 'Kinyarwanda', avail: true },
+        { rating: '[rating]', role: 'Carpenter', area: 'Jabana', level: 'Skilled', bio: 'Roof trusses, doors and formwork.', badges: ['id', 'vouch'], stats: [['[n]', 'Jobs'], ['[n]', 'Vouches'], ['[y]', 'Years']], work: [['Roof truss', 'amber'], ['Doors', 'grey'], ['Formwork', 'mint']], langs: 'Kinyarwanda', avail: false },
+        { rating: 'New', role: 'Umuyede', area: 'Jabana', level: 'Helper', bio: 'Mixing, carrying and site cleaning. Available most days.', badges: ['id'], stats: [['[n]', 'Jobs'], ['[n]', 'Vouches'], ['[y]', 'Years']], work: [['Site work', 'grey'], ['Mixing', 'amber'], ['Carrying', 'mint']], langs: 'Kinyarwanda', avail: true }
+      ],
+      Drivers: [
+        { rating: '[rating]', role: 'Pickup driver', area: 'Jabana', level: 'Pickup', bio: 'Cement, steel and blocks across Gasabo.', badges: ['id'], stats: [['[n]', 'Deliveries'], ['[n]', 'Stores'], ['[y]', 'Years']], work: [], langs: 'Kinyarwanda · English', avail: true },
+        { rating: 'New', role: 'Truck driver', area: 'Gasabo', level: 'Truck', bio: 'Sand, gravel and bulk loads.', badges: ['id'], stats: [['[n]', 'Deliveries'], ['[n]', 'Stores'], ['[y]', 'Years']], work: [], langs: 'Kinyarwanda', avail: false },
+        { rating: '[rating]', role: 'Moto driver', area: 'Jabana', level: 'Moto', bio: 'Small loads: wires, fittings, paint.', badges: ['id'], stats: [['[n]', 'Deliveries'], ['[n]', 'Stores'], ['[y]', 'Years']], work: [], langs: 'Kinyarwanda', avail: true }
+      ]
+    };
+    var segKeys = ['Professionals', 'Companies', 'Workers', 'Drivers'];
+    var segLabels = { Professionals: 'Professionals', Companies: 'Companies', Workers: 'Technicians and workers', Drivers: 'Drivers' };
+    var tradeChips = { Professionals: ['Architect', 'Engineer', 'Contractor', 'Surveyor'], Companies: ['Construction', 'Design', 'Equipment hire', 'Roofing'], Workers: ['Mason', 'Plumber', 'Electrician', 'Carpenter', 'Umuyede'], Drivers: ['Moto', 'Pickup', 'Truck'] };
+    var selSegs = segKeys.filter(function (g) { return (st.segsSel || []).indexOf(g) >= 0; }); if (!selSegs.length) selSegs = ['Professionals'];
+    var tradeOpts = []; selSegs.forEach(function (g) { tradeChips[g].forEach(function (t) { if (tradeOpts.indexOf(t) < 0) tradeOpts.push(t); }); });
+    var selTrades = (st.ptradesSel || []).filter(function (t) { return tradeOpts.indexOf(t) >= 0; });
+    var selAreas = st.pareasSel || [];
+    var houseIc = 'M10 30L32 12l22 18v24H10z M26 54V40h12v14';
+    var tones3 = { amber: ['#2A2312', '#F5B517'], mint: ['#12291F', '#43D19E'], blue: ['#141F33', '#8FB4FF'], purple: ['#261A2E', '#E7A6FF'], grey: ['#1C2027', '#C9CED6'] };
+    var badgeDefs = {
+      pro: { name: 'Verified professional', icon: 'M12 2.5l2.4 1.8 3 .1.9 2.9 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-.9 2.9-3 .1L12 21.5l-2.4-1.8-3-.1-.9-2.9L3.3 15l.9-2.9-.9-2.9 2.4-1.8.9-2.9 3-.1z M8.5 12l2.4 2.4 4.6-4.8', color: '#43D19E', bg: '#12291F', meaning: 'Member of a professional body. Documents checked by Inkingi.' },
+      biz: { name: 'Registered business', icon: 'M4 21V8l8-5 8 5v13 M9 21v-5h6v5 M8 11h2 M14 11h2', color: '#8FB4FF', bg: '#141F33', meaning: 'Business registration checked by Inkingi.' },
+      vouch: { name: 'Vouched for', icon: 'M8 8a3 3 0 1 0 0.1 0z M16 8a3 3 0 1 0 0.1 0z M2.5 20c.7-3.2 2.8-5 5.5-5s4.8 1.8 5.5 5 M10.5 20c.7-3.2 2.8-5 5.5-5s4.8 1.8 5.5 5', color: '#F5B517', bg: '#2A2312', meaning: 'Contractors or engineers they worked with on Inkingi vouch for them.' },
+      id: { name: 'ID checked', icon: 'M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z M9 12l2 2 4-4', color: '#C9CED6', bg: '#262B33', meaning: 'Identity confirmed. Everyone who works on Inkingi has this.' }
+    };
+    var badgeOrder = ['pro', 'biz', 'vouch', 'id'];
+    var dressPerson = function (p, i, g) {
+      var isCo = g === 'Companies', isPro = g === 'Professionals' || isCo, proBody = p.badges.indexOf(isCo ? 'biz' : 'pro') >= 0;
+      return { isCo: isCo, isPerson: !isCo, photoLabel: isCo ? 'Cover photo' : 'Photo', team: (p.team || []).map(function (m) { return { role: m[0], note: m[1], initial: m[0].charAt(0) }; }), key: g + i, role: p.role, area: p.area, initial: p.role.charAt(0), bio: p.bio, langs: p.langs,
+        sub: p.area + (p.level ? ' · ' + p.level : ''), verified: isPro ? proBody : true,
+        trust: isPro ? (proBody ? 'Verified · ID and professional body' : 'ID checked · professional body pending') : 'ID checked',
+        trustColor: isPro && !proBody ? '#9BA3AE' : '#43D19E', tint: ['#2A2312', '#12291F', '#141F33', '#261A2E'][i % 4], photoBg: ['#2A2312', '#12291F', '#141F33', '#261A2E', '#1F2228'][(i + segKeys.indexOf(g)) % 5], photoFg: ['#4A3D1E', '#21483A', '#2A3E63', '#48344F', '#3A3F48'][(i + segKeys.indexOf(g)) % 5],
+        badges: badgeOrder.filter(function (k) { return p.badges.indexOf(k) >= 0; }).map(function (k) { var d = badgeDefs[k]; return { name: d.name, icon: d.icon, color: d.color, bg: d.bg, meaning: d.meaning, when: k === 'vouch' ? 'From work recorded on Inkingi' : 'Checked by Inkingi · [date]' }; }),
+        rating: p.rating, ratingLong: p.rating === 'New' ? 'New · no ratings yet' : p.rating + ' · from real work on Inkingi', rBg: p.rating === 'New' ? '#1C2027' : '#2A2312', rFg: p.rating === 'New' ? '#C9CED6' : '#F5B517',
+        stats: p.stats.map(function (s) { return { n: s[0], label: s[1] }; }),
+        hasWork: p.work.length > 0, work: p.work.map(function (w) { var t = tones3[w[1]]; return { title: w[0], tint: t[0], stroke: t[1], icon: houseIc }; }),
+        hasAvail: p.avail !== null, availLabel: p.avail ? 'Available now' : 'Busy', availColor: p.avail ? '#43D19E' : '#6B7380',
+        open: function () { self.setState({ sheet: 'person', personKey: g + i }); } };
+    };
+    var people = [];
+    selSegs.forEach(function (g) { richPeople[g].forEach(function (p, i) {
+      var myTr = selTrades.filter(function (t) { return tradeChips[g].indexOf(t) >= 0; });
+      var okT = myTr.length === 0 || myTr.some(function (t) { return (p.role + ' ' + p.level).toLowerCase().indexOf(t.toLowerCase()) >= 0; });
+      var okA = selAreas.length === 0 || selAreas.indexOf(p.area) >= 0;
+      var okV = !st.availOnly || p.avail !== false;
+      if (okT && okA && okV) people.push(dressPerson(p, i, g)); }); });
+    var allDressed = []; segKeys.forEach(function (g) { richPeople[g].forEach(function (p, i) { allDressed.push(dressPerson(p, i, g)); }); });
+    var rp = allDressed.filter(function (p) { return p.key === st.personKey; })[0] || allDressed[0];
+    var toggleIn = function (arr, x) { var a = (arr || []).slice(), k = a.indexOf(x); if (k >= 0) a.splice(k, 1); else a.push(x); return a; };
+    var mchip = function (on) { return { bg: on ? '#F3F4F6' : '#1C2027', fg: on ? '#0A0C0F' : '#C9CED6', bd: on ? '#F3F4F6' : '#2E333B', mark: on ? '✓ ' : '' }; };
+    var segs = segKeys.map(function (g) { var on = selSegs.indexOf(g) >= 0, c = mchip(on); return { label: segLabels[g], bg: c.bg, fg: c.fg, bd: c.bd, mark: c.mark, pick: function () { var a = toggleIn(selSegs, g); self.setState({ segsSel: a.length ? a : ['Professionals'] }); } }; });
+    var ptrades = tradeOpts.map(function (t) { var on = selTrades.indexOf(t) >= 0, c = mchip(on); return { label: t, bg: c.bg, fg: c.fg, bd: c.bd, mark: c.mark, pick: function () { self.setState({ ptradesSel: toggleIn(selTrades, t) }); } }; });
+    var pareas = ['Jabana', 'Gasabo', 'Kicukiro'].map(function (a) { var on = selAreas.indexOf(a) >= 0, c = mchip(on); return { label: a, bg: c.bg, fg: c.fg, bd: c.bd, mark: c.mark, pick: function () { self.setState({ pareasSel: toggleIn(selAreas, a) }); } }; });
+    var showAvailToggle = selSegs.indexOf('Workers') >= 0 || selSegs.indexOf('Drivers') >= 0;
+    var activeChips = [];
+    selTrades.forEach(function (t) { activeChips.push({ label: t, remove: function () { self.setState({ ptradesSel: toggleIn(selTrades, t) }); } }); });
+    selAreas.forEach(function (a) { activeChips.push({ label: a, remove: function () { self.setState({ pareasSel: toggleIn(selAreas, a) }); } }); });
+    if (st.availOnly && showAvailToggle) activeChips.push({ label: 'Available now', remove: function () { self.setState({ availOnly: false }); } });
+    var typeLabel = selSegs.length === 1 ? segLabels[selSegs[0]] : (selSegs.length === 2 ? segLabels[selSegs[0]] + ' + ' + segLabels[selSegs[1]].split(' ')[0] : segLabels[selSegs[0]] + ' + ' + (selSegs.length - 1) + ' more');
+    var peopleCount = people.length === 1 ? '1 result' : people.length + ' results';
+    var createSets = { build: [['Ask a question', 'Get answers from verified pros'], ['Request a quote', 'From a professional or contractor']], pro: [['Post a finished project', 'Photos, cost and team'], ['Work in progress', 'Show a stage'], ['Post a tip', 'Share what you know'], ['Add to my crew', 'Pick from available workers']], work: [['Add photos of my work', 'Shown on your trade card'], ['Set me as available', 'People nearby can find you']], helper: [['Set me as available', 'People nearby can find you']], company: [['Post a project', 'Photos, cost and team'], ['Invite team members', 'Link their own profiles'], ['Add to my crew', 'Pick from available workers']], sell: [['Update a price', 'Keep your prices fresh'], ['Add a product', 'With price and delivery rule']], drive: [['Set me as available', 'Get delivery requests']], look: [['Ask a question', 'Get answers from verified pros']] };
+    var ckey = st.role === 'work' && st.level === 'Helper' ? 'helper' : st.role;
+    var postTypes = createSets[ckey].map(function (t) { return { name: t[0], who: t[1], pick: function () {
+      if (t[0] === 'Set me as available') { self.setState({ avail: true, sheet: 'none' }); return self.say('People nearby can now find you'); }
+      if (t[0] === 'Invite team members') { self.setState({ sheet: 'none' }); return self.say('Invite link ready to share on WhatsApp'); }
+      if (t[0] === 'Add to my crew') { self.setState({ segsSel: ['Workers'] }); self.go('people'); return self.say('Showing available workers near you'); }
+      self.setState({ sheet: 'none' }); self.say('Opening: ' + t[0].toLowerCase()); } }; });
+    var ic = {
+      All: 'M12 12h16v16H12z M36 12h16v16H36z M12 36h16v16H12z M36 36h16v16H36z',
+      Cement: 'M16 12h32l4 42H12z M16 12l3-5h26l3 5 M22 30h20 M22 38h20',
+      Steel: 'M8 18h48 M8 28h48 M8 38h48 M8 48h48 M8 18v30 M56 18v30',
+      Blocks: 'M6 22h24v14H6z M34 22h24v14H34z M20 40h24v14H20z M12 26h6v6h-6z M40 26h6v6h-6z M28 44h8v6h-8z',
+      Aggregates: 'M4 52Q18 22 32 16Q46 22 60 52z M20 44h2 M30 36h2 M40 44h2',
+      Roofing: 'M6 42L32 16l26 26 M12 46h40 M16 50h32',
+      Timber: 'M8 18h48v12H8z M8 34h48v12H8z M14 24h12 M30 40h14',
+      Plumbing: 'M8 24h28a10 10 0 0 1 10 10v22 M8 36h22a4 4 0 0 1 4 4v16',
+      Electrical: 'M32 10a22 22 0 1 0 0.1 0z M32 22a10 10 0 1 0 0.1 0z',
+      Tiles: 'M10 10h20v20H10z M34 10h20v20H34z M10 34h20v20H10z M34 34h20v20H34z',
+      Paint: 'M16 20h32v32a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4z M16 20c0-5 32-5 32 0 M24 12c4-6 12-6 16 0',
+      Store: 'M10 24l4-12h36l4 12 M10 24h44v30H10z M26 54V40h12v14 M10 24c0 5 7 5 7 0c0 5 8 5 8 0c0 5 7 5 7 0c0 5 8 5 8 0c0 5 7 5 7 0c0 5 7 5 7 0'
+    };
+    var tone = { amber: ['#2A2312', '#F5B517'], mint: ['#12291F', '#43D19E'], blue: ['#141F33', '#8FB4FF'], purple: ['#261A2E', '#E7A6FF'], grey: ['#1C2027', '#C9CED6'] };
+    var prodData = [
+      ['m1', 'Cement', '50 kg bag', 'Cement', 'amber', 'bag'], ['m2', 'Steel bar 12 mm', 'per bar', 'Steel', 'grey', 'bar'], ['m3', 'Concrete blocks', 'per block', 'Blocks', 'blue', 'block'],
+      ['m4', 'Sand', 'per trip', 'Aggregates', 'amber', 'trip'], ['m5', 'Roofing sheet', 'per sheet', 'Roofing', 'mint', 'sheet'], ['m6', 'Timber 4×2', 'per piece', 'Timber', 'amber', 'piece'],
+      ['m7', 'PVC pipe', 'per 6 m length', 'Plumbing', 'blue', 'length'], ['m8', 'Electric cable', 'per 100 m roll', 'Electrical', 'purple', 'roll'], ['m9', 'Floor tiles', 'per m²', 'Tiles', 'mint', 'm²'], ['m10', 'Wall paint', '20 L bucket', 'Paint', 'purple', 'bucket']
+    ];
+    var storeData = [
+      { id: 's1', name: 'Hardware store', area: 'Jabana centre', cats: ['Cement', 'Steel', 'Roofing', 'Timber'], delivery: 'Delivers in Jabana', updated: 'Prices updated today', verified: true, tone: 'amber' },
+      { id: 's2', name: 'Block maker', area: 'Gasabo', cats: ['Blocks', 'Aggregates'], delivery: 'Fixed delivery fee', updated: 'Updated this week', verified: true, tone: 'blue' },
+      { id: 's3', name: 'Paint and tiles store', area: 'Jabana', cats: ['Paint', 'Tiles'], delivery: 'Pickup only', updated: 'Updated 2 days ago', verified: false, tone: 'purple' },
+      { id: 's4', name: 'Plumbing and electrical', area: 'Jabana', cats: ['Plumbing', 'Electrical', 'Cement'], delivery: 'Agreed in chat', updated: 'Updated today', verified: true, tone: 'mint' },
+      { id: 's5', name: 'Building supplies', area: 'Gasabo', cats: ['Cement', 'Steel', 'Blocks', 'Aggregates', 'Timber'], delivery: 'Free delivery in Gasabo', updated: 'Updated 2 days ago', verified: true, tone: 'grey' }
+    ];
+    var catOn = st.cat;
+    var cats = ['All', 'Cement', 'Steel', 'Blocks', 'Aggregates', 'Roofing', 'Timber', 'Plumbing', 'Electrical', 'Tiles', 'Paint'].map(function (c) { var on = catOn === c; return { label: c, icon: ic[c], bg: on ? '#F5B517' : '#14171C', stroke: on ? '#0A0C0F' : '#C9CED6', bd: on ? '#F5B517' : '#23272E', fg: on ? '#F3F4F6' : '#9BA3AE', pick: function () { self.setState({ cat: c }); } }; });
+    var storesFor = function (catName) { return storeData.filter(function (s) { return s.cats.indexOf(catName) >= 0; }); };
+    var openProd = function (pid, sid) { return function () { self.setState({ sheet: 'product', prodId: pid, selStore: sid || null, qty: 1 }); }; };
+    var dressProd = function (p, sid) { var t = tone[p[4]], n = storesFor(p[3]).length; return { id: p[0], name: p[1], unit: p[2], cat: p[3], icon: ic[p[3]], tint: t[0], stroke: t[1], storesLabel: n === 1 ? '1 store near you' : n + ' stores near you', open: openProd(p[0], sid) }; };
+    var products = prodData.filter(function (p) { return catOn === 'All' || p[3] === catOn; }).map(function (p) { return dressProd(p); });
+    var stores = storeData.filter(function (s) { return catOn === 'All' || s.cats.indexOf(catOn) >= 0; }).map(function (s) {
+      var t = tone[s.tone];
+      return Object.assign({}, s, { tint: t[0], stroke: t[1], icon: ic.Store, groups: s.cats.join(' · '), trust: s.verified ? 'Verified store' : 'Not yet verified',
+        products: prodData.filter(function (p) { return s.cats.indexOf(p[3]) >= 0; }).map(function (p) { return dressProd(p, s.id); }),
+        open: function () { self.setState({ sheet: 'store', storeId: s.id }); } });
+    });
+    var allStores = storeData.map(function (s) { var t = tone[s.tone]; return Object.assign({}, s, { tint: t[0], stroke: t[1], icon: ic.Store, groups: s.cats.join(' · '), trust: s.verified ? 'Verified store' : 'Not yet verified',
+      products: prodData.filter(function (p) { return s.cats.indexOf(p[3]) >= 0; }).map(function (p) { return dressProd(p, s.id); }) }); });
+    var ds = allStores.filter(function (s) { return s.id === st.storeId; })[0] || allStores[0];
+    var pRaw = prodData.filter(function (p) { return p[0] === st.prodId; })[0] || prodData[0];
+    var pStores = storesFor(pRaw[3]);
+    var selId = st.selStore && pStores.some(function (s) { return s.id === st.selStore; }) ? st.selStore : pStores[0].id;
+    var selStoreObj = storeData.filter(function (s) { return s.id === selId; })[0];
+    var dprod = Object.assign(dressProd(pRaw), { qty: st.qty, unitShort: pRaw[5] + (st.qty > 1 && pRaw[5] !== 'm²' ? 's' : ''),
+      opts: pStores.map(function (s) { var on = s.id === selId; return { name: s.name, area: s.area, delivery: s.delivery, bd: on ? '#F5B517' : '#2E333B', bg: on ? '#1C2027' : '#14171C', ring: on ? '#F5B517' : '#3A404A', dot: on ? '#F5B517' : 'transparent', pick: function () { self.setState({ selStore: s.id }); } }; }),
+      minus: function () { self.setState({ qty: Math.max(1, st.qty - 1) }); }, plus: function () { self.setState({ qty: st.qty + 1 }); },
+      add: function () {
+        var c = st.cart, msg;
+        if (c && c.store === selId) { c = { store: selId, items: c.items + st.qty }; msg = 'Added to your order'; }
+        else { msg = c ? 'New order with ' + selStoreObj.name.toLowerCase() + ' (one store per order)' : 'Added to your order'; c = { store: selId, items: st.qty }; }
+        self.setState({ cart: c, sheet: 'none' }); self.say(msg);
+      } });
+    var specs = { Cement: '[brand] · [grade]', Steel: '[brand] · 12 mm, [length] m', Blocks: '[size] · [strength]', Aggregates: 'River sand · [trip size]', Roofing: '[brand] · [gauge]', Timber: '[wood type] · 4×2', Plumbing: '[brand] · PVC [size]', Electrical: '[brand] · [size] mm²', Tiles: '[brand] · [size] cm', Paint: '[brand] · [finish]' };
+    var fresh = function (u) { return u.indexOf('today') >= 0 ? 0 : (u.indexOf('2 days') >= 0 ? 1 : 2); };
+    var offers = [];
+    if (catOn !== 'All') prodData.filter(function (p) { return p[3] === catOn; }).forEach(function (p) {
+      storesFor(p[3]).forEach(function (s, i) { var t = tone[s.tone], pt = tone[p[4]];
+        offers.push({ storeName: s.name, area: s.area, verified: s.verified, delivery: s.delivery, updated: s.updated, rank: i, fr: fresh(s.updated),
+          sTint: t[0], sStroke: t[1], sIcon: ic.Store, pTint: pt[0], pStroke: pt[1], pIcon: ic[p[3]], product: p[1], unit: p[2], spec: specs[p[3]] || '[brand]',
+          open: function () { self.setState({ sheet: 'store', storeId: s.id }); }, add: openProd(p[0], s.id) }); });
+    });
+    if (st.sortBy === 'Freshest') offers.sort(function (a, b) { return a.fr - b.fr; });
+    if (st.sortBy === 'Lowest price') offers.reverse();
+    var sorts = ['Nearest', 'Lowest price', 'Freshest'].map(function (x) { var c = self.chip(st.sortBy === x); return { label: x, bg: c.bg, fg: c.fg, bd: c.bd, pick: function () { self.setState({ sortBy: x }); } }; });
+    var stopW = ['near', 'me', 'in', 'the', 'for', 'a', 'of', 'to', 'and'];
+    var toks = (st.q || '').toLowerCase().split(/\s+/).filter(function (t) { return t.length > 1 && stopW.indexOf(t) < 0; }).map(function (t) { return t.replace(/s$/, ''); });
+    var gIcon = { people: 'M22 20a8 8 0 1 0 0.1 0z M8 54c2-10 8-14 14-14s12 4 14 14 M42 18a7 7 0 1 1 0 14 M46 38c6 2 9 7 10 16', post: 'M10 30L32 12l22 18v24H10z M26 54V40h12v14', guide: 'M8 54h12V42h12V30h12V18h12' };
+    var idx = [];
+    prodData.forEach(function (p) { var t = tone[p[4]]; idx.push({ kind: 'Materials', title: p[1], sub: p[2] + ' · ' + storesFor(p[3]).length + ' stores near you', text: p[1] + ' ' + p[3], icon: ic[p[3]], tint: t[0], stroke: t[1], go: function () { self.setState({ search: false, tab: 'prices', sheet: 'product', prodId: p[0], selStore: null, qty: 1 }); } }); });
+    storeData.forEach(function (s) { var t = tone[s.tone]; idx.push({ kind: 'Stores', title: s.name, sub: s.area + ' · ' + s.cats.join(', '), text: s.name + ' ' + s.area + ' ' + s.cats.join(' ') + ' store', icon: ic.Store, tint: t[0], stroke: t[1], go: function () { self.setState({ search: false, tab: 'prices', sheet: 'store', storeId: s.id }); } }); });
+    Object.keys(peopleData).forEach(function (g) { peopleData[g].forEach(function (p) { idx.push({ kind: 'People', title: p[0], sub: p[1] + ' · ' + p[2], text: p[0] + ' ' + p[1] + ' ' + p[2] + ' ' + g, icon: gIcon.people, tint: '#12291F', stroke: '#43D19E', go: function () { self.setState({ search: false, tab: 'people', segsSel: [g], sheet: 'none' }); } }); }); });
+    raw.forEach(function (p) { idx.push({ kind: 'Posts', title: p.title, sub: p.label + ' · ' + p.by, text: p.title + ' ' + p.label + ' ' + p.step + ' ' + p.meta, icon: gIcon.post, tint: '#1C2027', stroke: '#C9CED6', go: function () { self.setState({ search: false, sheet: 'post', postId: p.id }); } }); });
+    stepData.forEach(function (d, i) { d[2].forEach(function (tp) { idx.push({ kind: 'Guide', title: tp, sub: 'Guide · ' + d[0], text: tp + ' ' + d[0] + ' guide', icon: gIcon.guide, tint: '#2A2312', stroke: '#F5B517', go: function () { self.setState({ search: false, tab: 'guide', step: i, sheet: 'none' }); } }); }); });
+    var hits = toks.length ? idx.filter(function (it) { var x = it.text.toLowerCase(); return toks.every(function (t) { return x.indexOf(t) >= 0; }); }) : [];
+    var sTabs = ['All', 'Materials', 'Stores', 'People', 'Posts', 'Guide'].map(function (k) { var n = k === 'All' ? hits.length : hits.filter(function (h) { return h.kind === k; }).length, on = st.sTab === k, c = self.chip(on); return { label: k + ' ' + n, bg: c.bg, fg: c.fg, bd: c.bd, pick: function () { self.setState({ sTab: k }); } }; });
+    var sResults = hits.filter(function (h) { return st.sTab === 'All' || h.kind === st.sTab; }).slice(0, 14);
+    var setQ = function (q) { return function () { self.setState({ q: q, sTab: 'All' }); }; };
+    var suggestions = ['Cement near me', 'Verified engineers', 'Permit documents', 'Masons in Jabana', 'Roofing sheets', 'Land title'].map(function (q) { return { label: q, pick: setQ(q) }; });
+    var recents = ['Steel bar 12 mm', 'Contractor Jabana'].map(function (q) { return { label: q, pick: setQ(q) }; });
+    var wide = true;
+    var chatBase = {
+      c1: { name: 'Civil engineer', initial: 'C', tint: '#12291F', about: '3-bedroom house in Jabana', verified: true, isStore: false, time: '10:42', unread: 2,
+        msgs: [{ me: false, t: 'Muraho! I saw you liked the 3-bedroom project. Where is your plot?' }, { me: true, t: 'In Jabana. I live in Belgium and I am building for my parents.' }, { me: false, t: 'I can visit the plot and send you photos and a short report. Here is my quote:' }, { kind: 'quote', me: false, title: 'Site visit and plan check', price: 'RWF [price]', time: '[days] days', inc: 'Visit, photos, short report' }] },
+      c2: { name: 'Hardware store', initial: 'H', tint: '#2A2312', about: 'Cement, 50 kg bag', verified: true, isStore: true, time: 'Yesterday', unread: 0,
+        msgs: [{ me: true, t: 'Do you have 40 bags this week?' }, { me: false, t: 'Yes, in stock. Delivery in Jabana is free.' }] },
+      c3: { name: 'Mason, team leader', initial: 'M', tint: '#141F33', about: 'Walls and columns', verified: false, isStore: false, time: 'Mon', unread: 0,
+        msgs: [{ me: false, t: 'My crew can start on Monday if the blocks are on site.' }] }
+    };
+    var extra = st.chatExtra || {};
+    var dressMsg = function (m, cid) {
+      var k = m.kind || 'text';
+      return { isText: k === 'text', isQuote: k === 'quote', isLoc: k === 'loc', isOrder: k === 'order', isSys: k === 'sys', t: m.t, title: m.title, price: m.price, time: m.time, inc: m.inc,
+        align: m.me ? 'flex-end' : 'flex-start', bg: m.me ? '#F5B517' : '#1C2027', fg: m.me ? '#0A0C0F' : '#F3F4F6',
+        accept: function () { self.say('Quote accepted · recorded on Inkingi'); } };
+    };
+    var chats = ['c1', 'c2', 'c3'].map(function (id) {
+      var c = chatBase[id], all = c.msgs.concat(extra[id] || []), last = all[all.length - 1], on = st.chatId === id;
+      return { id: id, name: c.name, initial: c.initial, tint: c.tint, about: c.about, verified: c.verified, time: c.time,
+        hasUnread: c.unread > 0 && !(st.readChats || {})[id], unread: c.unread, last: last.t || (last.kind === 'quote' ? 'Sent a quote' : 'Shared an update'),
+        rowBg: on && wide ? '#1C2027' : 'transparent',
+        open: function () { var r = Object.assign({}, st.readChats || {}); r[id] = true; self.setState({ chatId: id, readChats: r, chatTray: false }); } };
+    });
+    var cur2 = st.chatId ? chatBase[st.chatId] : null;
+    var thread = cur2 ? cur2.msgs.concat(extra[st.chatId] || []).map(function (m) { return dressMsg(m, st.chatId); }) : [];
+    var pushMsg = function (m, toast) { var e = Object.assign({}, extra), id = st.chatId; e[id] = (e[id] || []).concat([m]); self.setState({ chatExtra: e, chatTray: false, draft: '' }); if (toast) self.say(toast); };
+    var trayActions = [
+      ['Send a quote', 'Price, time and what is included', function () { pushMsg({ kind: 'quote', me: true, title: 'Your quote', price: 'RWF [price]', time: '[days] days', inc: '[what is included]' }, 'Quote sent'); }],
+      ['Share site location', 'Neighbourhood only, never an exact pin', function () { pushMsg({ kind: 'loc', me: true, t: 'Jabana, Gasabo' }); }]
+    ];
+    if (cur2 && cur2.isStore) trayActions.push(['Turn into an order', 'One store per order · pay on delivery', function () { pushMsg({ kind: 'order', me: true, t: 'Cement, 50 kg bag × [qty]' }, 'Order sent to the store'); }]);
+    trayActions.push(["We're working together", 'Records the hire so you can both rate later', function () { pushMsg({ kind: 'sys', t: 'You and ' + (cur2 ? cur2.name.toLowerCase() : '') + ' are working together. You will both be asked to rate later.' }, 'Recorded on Inkingi'); }]);
+    var tray = trayActions.map(function (a) { return { label: a[0], sub: a[1], go: a[2] }; });
+    var actData = [
+      ['Order accepted', 'Hardware store accepted your cement order. Pay on delivery.', 'M4 7h16l-1.5 12h-13zM9 7V5a3 3 0 0 1 6 0v2', '#2A2312', '#F5B517', '2 min', function () { self.setState({ inbox: false, tab: 'prices' }); }],
+      ['New answer', 'A verified engineer answered your permit question.', 'M4 5h16v11H9l-5 4z', '#12291F', '#43D19E', '1 h', function () { self.setState({ inbox: false, sheet: 'post', postId: 'p2' }); }],
+      ['ID checked', 'Your ID and profile photo were checked by Inkingi.', 'M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z M9 12l2 2 4-4', '#262B33', '#C9CED6', 'Yesterday', function () { self.say('Your badges are on your profile'); }],
+      ['Team invite', 'A construction company invited you to join their team.', 'M4 21V8l8-5 8 5v13M9 21v-5h6v5', '#141F33', '#8FB4FF', 'Mon', function () { self.say('Invite accepted · you now show on their team'); }],
+      ['Vouch', 'A contractor vouched for your work.', 'M8 8a3 3 0 1 0 0.1 0z M16 8a3 3 0 1 0 0.1 0z M2.5 20c.7-3.2 2.8-5 5.5-5s4.8 1.8 5.5 5 M10.5 20c.7-3.2 2.8-5 5.5-5s4.8 1.8 5.5 5', '#2A2312', '#F5B517', 'Sun', function () { self.say('Shown as a badge on your profile'); }]
+    ];
+    var activity = actData.map(function (a) { return { title: a[0], text: a[1], icon: a[2], bg: a[3], color: a[4], time: a[5], go: a[6] }; });
+    var ibTabs = [['Messages', '2'], ['Activity', '5']].map(function (t) { var on = (st.ibTab || 'Messages') === t[0]; return { label: t[0], count: t[1], bg: on ? '#F3F4F6' : 'transparent', fg: on ? '#0A0C0F' : '#C9CED6', pick: function () { self.setState({ ibTab: t[0], chatId: wide ? st.chatId : null }); } }; });
+    var cartStore = st.cart ? storeData.filter(function (s) { return s.id === st.cart.store; })[0] : null;
+    var roleLine = st.role === 'build' ? (st.where === 'abroad' ? 'Building from abroad' : 'Building in Rwanda') + ' · step ' + (st.step + 1) : (st.role === 'pro' ? st.trade + ' · Jabana' : (st.role === 'sell' ? 'Your store · Jabana' : (st.role === 'company' ? st.coType + ' · company page' : st.role === 'work' ? st.workTrade + ' · ' + st.level : (st.role === 'drive' ? st.vehicle + ' driver · Jabana' : 'Exploring Inkingi'))));
+    var subTitles = { build: 'Tell us about your build', pro: 'What do you do?', company: 'Your company', work: 'Your trade card', sell: 'Set up your store', drive: 'Your vehicle', look: 'What interests you?' };
+    var nav = function (t) { return st.tab === t ? '#F3F4F6' : '#7D8591'; };
+    var sh = st.sheet;
+    var dot = function (n) { var at = sh === 'join' ? 1 : (sh === 'role' ? 2 : 3); return n <= at ? '#F5B517' : '#2E333B'; };
+    return {
+      isGuest: !st.signedIn, isMember: st.signedIn,
+      showLanding: st.tab === 'home' && !st.signedIn, showMemberHome: st.tab === 'home' && st.signedIn,
+      tabExplore: st.tab === 'explore', tabGuide: st.tab === 'guide', tabPrices: st.tab === 'prices', tabPeople: st.tab === 'people',
+      roleBuild: st.role === 'build', rolePro: st.role === 'pro', roleSell: st.role === 'sell', roleLook: st.role === 'look', roleWork: st.role === 'work', roleCompany: st.role === 'company', subCompany: st.role === 'company', coType: st.coType, coInitial: st.coType.charAt(0), coTypes: ['Construction company', 'Design studio', 'Equipment hire', 'Roofing contractor', 'Other'].map(function (t) { var c = self.chip(st.coType === t); return { label: t, bg: c.bg, fg: c.fg, bd: c.bd, pick: function () { self.setState({ coType: t }); } }; }), inviteTeam: function () { self.say('Invite link ready to share on WhatsApp'); }, roleDrive: st.role === 'drive',
+      auds: auds, aud: aud, stores: stores, ds: ds, searchOpen: !!st.search, q: st.q, hasQuery: !!(st.q || '').trim(), noQuery: !(st.q || '').trim(), noHits: toks.length > 0 && hits.length === 0, suggestions: suggestions, recents: recents, sTabs: sTabs, sResults: sResults, onQuery: function (e) { self.setState({ q: e.target.value, sTab: 'All' }); }, clearQ: function () { self.setState({ q: '' }); }, closeSearch: function () { self.setState({ search: false }); }, rp: rp, sPerson: st.sheet === 'person', sPF: st.sheet === 'pfilter', pareas: pareas, activeChips: activeChips, hasActive: activeChips.length > 0, activeCount: activeChips.length, typeLabel: typeLabel, peopleCount: peopleCount, pfBd: activeChips.length ? '#F5B517' : '#2E333B', availSwBg: st.availOnly ? '#43D19E' : '#3A404A', availSwJust: st.availOnly ? 'flex-end' : 'flex-start', openPF: function () { self.setState({ pfOpen: !st.pfOpen }); }, pfOpen: !!st.pfOpen, showActiveRow: !st.pfOpen && activeChips.length > 0, pfBg: st.pfOpen ? '#F3F4F6' : '#14171C', pfFg: st.pfOpen ? '#0A0C0F' : '#F3F4F6', closePF: function () { self.setState({ pfOpen: false }); }, clearPF: function () { self.setState({ segsSel: ['Professionals'], ptradesSel: [], pareasSel: [], availOnly: false }); }, ptrades: ptrades, showAvailToggle: showAvailToggle, availOnlyBg: st.availOnly ? '#12291F' : '#14171C', availOnlyFg: st.availOnly ? '#43D19E' : '#C9CED6', availOnlyBd: st.availOnly ? '#43D19E' : '#2E333B', toggleAvailOnly: function () { self.setState({ availOnly: !st.availOnly }); }, teamTap: function () { self.say('Opens their own profile'); }, callTap: function () { self.act('call', 'Calling · this tap is recorded'); }, waTap: function () { self.act('open WhatsApp', 'Opening WhatsApp · this tap is recorded'); }, inboxOpen: !!st.inbox, ibMessages: (st.ibTab || 'Messages') === 'Messages', ibActivity: st.ibTab === 'Activity', ibTabs: ibTabs, chats: chats, activity: activity, showListPane: wide || !st.chatId, showThread: !!st.chatId, showPlaceholder: wide && !st.chatId, showBack: !wide, chat: cur2 ? { name: cur2.name, initial: cur2.initial, tint: cur2.tint, about: cur2.about, verified: cur2.verified } : { name: '', initial: '', tint: '#1C2027', about: '', verified: false }, thread: thread, tray: tray, chatTray: !!st.chatTray, trayBg: st.chatTray ? '#F5B517' : '#1C2027', trayFg: st.chatTray ? '#0A0C0F' : '#F3F4F6', draft: st.draft || '', toggleTray: function () { self.setState({ chatTray: !st.chatTray }); }, onDraft: function (e) { self.setState({ draft: e.target.value }); }, sendDraft: function () { var d = (st.draft || '').trim(); if (!d) return; pushMsg({ me: true, t: d }); }, chatBack: function () { self.setState({ chatId: null, chatTray: false }); }, closeInbox: function () { self.setState({ inbox: false, chatTray: false }); }, cats: cats, products: products, offers: offers, sorts: sorts, isAllCat: catOn === 'All', isCompare: catOn !== 'All', catLower: catOn.toLowerCase(), offerCount: offers.length, dprod: dprod, sStore: st.sheet === 'store', sProduct: st.sheet === 'product', hasCart: !!st.cart, cartStoreName: cartStore ? 'Order from ' + cartStore.name : '', cartLabel: st.cart ? st.cart.items + (st.cart.items === 1 ? ' item' : ' items') + ' · pay on delivery' : '', reviewOrder: function () { if (!st.signedIn) return self.gate('send your order'); self.setState({ cart: null }); self.say('Order sent · the store will confirm'); }, sStart: st.sheet === 'start', startList: !st.startPick, startDetail: !!st.startPick, openStart: function () { self.setState({ sheet: 'start', startPick: null }); }, startBack: function () { self.setState({ startPick: null }); }, workTrades: workTrades, levels: levels, vehicles: vehicles, subWork: st.role === 'work', subDrive: st.role === 'drive',
+      workTrade: st.workTrade, level: st.level, vehicle: st.vehicle, tradeInitial: st.workTrade.charAt(0),
+      availBg: st.avail ? '#43D19E' : '#1C2027', availFg: st.avail ? '#0A0C0F' : '#F3F4F6', availLabel: st.avail ? 'Available now' : 'Not available',
+      availBig: st.avail ? 'You are available' : 'You are offline', availBtn: st.avail ? 'Go offline' : 'Go available',
+      toggleAvail: function () { self.setState({ avail: !st.avail }); self.say(st.avail ? 'You are offline' : 'People nearby can now find you'); },
+      askVouch: function () { self.say('Vouch request sent by WhatsApp'); },
+      roleLine: roleLine, freshLine: st.fresh ? 'Fresh today' : 'Last updated 6 days ago',
+      navHome: nav('home'), navGuide: nav('guide'), navExplore: nav('explore'), navPrices: nav('prices'), navPeople: nav('people'),
+      steps: steps, cur: cur, prices: prices, prices3: prices.slice(0, 3), houses: houses, homeChips: homeChips, homePosts: homePosts, exploreChips: exploreChips, explorePosts: explorePosts,
+      people: people, segs: segs, postTypes: postTypes, dp: dp,
+      roles: roles, whereOpts: whereOpts, trades: trades, groups: groups, interestChips: interestChips,
+      subTitle: subTitles[st.role], subBuild: st.role === 'build', subPro: st.role === 'pro', subSell: st.role === 'sell',
+      finishLabel: st.signedIn ? 'Update my home' : 'Show my home',
+      sheetOpen: sh !== 'none', sJoin: sh === 'join', sRole: sh === 'role', sSub: sh === 'sub', sGate: sh === 'gate', sPost: sh === 'post', sCreate: sh === 'create',
+      showDots: (sh === 'join' || sh === 'role' || sh === 'sub') && !st.signedIn, dot1: dot(1), dot2: dot(2), dot3: dot(3),
+      joinTitle: st.signedIn ? 'Welcome back' : 'Join Inkingi', gateReason: st.gateReason,
+      hasToast: !!st.toast, toast: st.toast,
+      goHome: function () { self.go('home'); }, goExplore: function () { self.go('explore'); }, goGuide: function () { self.go('guide'); },
+      goPrices: function () { self.go('prices'); }, goPeople: function () { self.go('people'); },
+      doorThinking: function () { self.go('guide', 0); },
+      doorStarted: function () { self.go('people'); },
+      openJoin: function () { self.setState({ sheet: 'join' }); },
+      toRole: function () { self.setState({ sheet: 'role' }); },
+      toSub: function () { self.setState({ sheet: 'sub' }); },
+      finish: function () { var was = st.signedIn; self.setState({ signedIn: true, sheet: 'none', tab: 'home', homeChip: 'For you' }); self.say(was ? 'Your home is updated' : 'Your home is ready'); },
+      editPrefs: function () { self.setState({ sheet: 'sub' }); },
+      openCreate: function () { self.setState({ sheet: 'create' }); },
+      closeSheet: function () { self.setState({ sheet: 'none' }); },
+      filterQuestions: function () { self.setState({ homeChip: 'Questions to answer' }); },
+      markFresh: function () { self.setState({ fresh: true }); self.say('Prices marked fresh today'); },
+      toastProfile: function () { self.say('Profile editor opens here'); },
+      orderTap: function () { self.act('order', 'Order started from this store'); },
+      msgTap: function () { self.act('send a message', 'Chat opened'); },
+      followTap: function () { self.act('follow people', 'Following'); },
+      topicTap: function () { self.say('Topic page opens here'); },
+      searchTap: function () { self.setState({ search: true, q: '', sTab: 'All', sheet: 'none' }); },
+      inboxTap: function () { self.setState({ inbox: true, sheet: 'none', chatId: 'c1' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
